@@ -21,7 +21,7 @@ const ConstructorIngredient: FC<Props> = (props) => {
             price={props.price}
             text={props.name}
             thumbnail={props.image}
-            isLocked={props.first && props.last}
+            isLocked={props.first || props.last}
             type={props.first ? 'top' : props.last ? 'bottom' : undefined} />
     </div>)
 }

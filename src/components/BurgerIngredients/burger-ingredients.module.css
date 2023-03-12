@@ -30,11 +30,12 @@
 }
 
 .ingredients__list {
+    --gap-il: calc(var(--offset-base-size) * 6);
     list-style: none;
     padding-left: 0;
     display: grid;
-    grid-template-columns: repeat(2, calc((100% - calc(var(--offset-base-size) * 6)) / 2));
-    gap: calc(var(--offset-base-size) * 6);
+    grid-template-columns: repeat(2, calc((100% - var(--gap-il)) / 2));
+    gap: var(--gap-il);
 }
 
 .ingredient {
@@ -65,13 +66,29 @@
 
 .ingredient__count {
     position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     top: 0;
     right: 0;
-    border-radius: 50%;
-    background: var(--colors-interface-accent);
-    height: calc(var(--offset-base-size) * 8);
-    width: calc(var(--offset-base-size) * 8);
 }
+
+.ingredient-modal__name {
+    text-align: center;
+}
+
+.ingredients-attributes {
+    --gap-ia: calc(var(--offset-base-size) * 5);
+    display: grid;
+    grid-template-columns: repeat(4, calc((100% - calc(var(--gap-ia) * 3)) / 4));
+    grid-gap: var(--gap-ia);
+}
+
+.ingredients-attribute {
+    display: grid;
+    justify-content: center;
+}
+
+.ingredients-attribute span {
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+}
+

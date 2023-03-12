@@ -20,7 +20,7 @@ const BurgerIngredientsBlock: FC<Props> = (props) => {
     return (<div>
         <h2 id={props.id} className={'text text_type_main-medium'}>{props.title}</h2>
         <ul className={ingredientsStyle.ingredients__list}>{
-            props.items.map((item) => (<BurgerIngredient {...item} />))
+            props.items.map((item) => (<BurgerIngredient key={item._id} {...item} />))
         }</ul>
     </div>)
 }

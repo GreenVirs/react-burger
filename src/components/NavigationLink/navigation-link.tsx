@@ -6,8 +6,8 @@ import PropTypes from "prop-types";
 const propType = {
     active: PropTypes.bool,
     href: PropTypes.string.isRequired,
-    icon: PropTypes.element,
-    children: PropTypes.element.isRequired
+    icon: PropTypes.func,
+    children: PropTypes.elementType.isRequired
 }
 
 type Props = PropsWithChildren<{

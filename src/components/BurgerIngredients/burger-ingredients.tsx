@@ -1,13 +1,8 @@
 import ingredientsStyles from './burger-ingredients.module.css';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, useMemo, useState } from "react";
-import { Ingredient, ingredientPropType } from "../../models/ingridient";
+import { Ingredient } from "../../models/ingridient";
 import BurgerIngredientsBlock from "./burger-ingredients-block";
-import PropTypes from "prop-types";
-
-const propTypes = {
-    items: PropTypes.arrayOf(ingredientPropType).isRequired
-}
 
 type Props = {
     items: Ingredient[];
@@ -15,14 +10,15 @@ type Props = {
 
 const BurgerIngredients: FC<Props> = (props) => {
     const [current, setCurrent] = useState('bun')
-    const { bun, sauce, main } =useMemo(() => {
+    const { bun, sauce, main } = useMemo(() => {
         return props.items.reduce((acc, item) => {
             acc[item.type].push(item);
             return acc;
         }, { bun: [], main: [], sauce: [] } as Record<Ingredient['type'], Ingredient[]>)
     }, [props.items]);
 
-    return (<div className={`pt-10 ${ingredientsStyles.ingredients}`}>
+    return (
+        <div className={`pt-10 ${ingredientsStyles.ingredients}`}>
             <h1 className='mb-5 text text_type_main-large'>Соберите бургер</h1>
             <header className='mb-10'>
                 <ul className={ingredientsStyles.tabs}>
@@ -44,7 +40,5 @@ const BurgerIngredients: FC<Props> = (props) => {
             </div>
         </div>)
 }
-
-BurgerIngredients.propTypes = propTypes;
 
 export default BurgerIngredients;

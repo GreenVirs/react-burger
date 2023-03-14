@@ -1,23 +1,11 @@
-import ModalOverlay from "../Modal/modal-overlay";
-import Modal from "../Modal/modal";
 import { FC } from "react";
-import PropTypes from "prop-types";
 import doneImage from '../../images/done.svg'
 import burgerConstructorStyle from "./burger-constructor.module.css";
 
-const propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-}
-
-type Props = {
-    isOpen: boolean
-    onClose: () => void,
-}
-const OrderDetails: FC<Props> = (props) => {
+const OrderDetails: FC
+    = (props) => {
     return (<>
-            <ModalOverlay isOpen={props.isOpen} onClose={props.onClose} />
-            <Modal isOpen={props.isOpen} onClose={props.onClose}>
+            <div className={burgerConstructorStyle['order-details']}>
                 <div className={`text text_type_digits-large  ${burgerConstructorStyle['order-details__text']}`}>034536</div>
                 <div className={`mt-8 text text_type_main-medium  ${burgerConstructorStyle['order-details__text']}`}>идентификатор заказа</div>
                 <div className={`mt-15 ${burgerConstructorStyle['order-details__image']}`}>
@@ -29,11 +17,9 @@ const OrderDetails: FC<Props> = (props) => {
                 <div className={`mt-2 mb-15 text text_color_inactive text_type_main-default  ${burgerConstructorStyle['order-details__text']}`}>
                     Дождитесь готовности на орбитальной станции
                 </div>
-            </Modal>
+            </div>
         </>
     );
 }
-
-OrderDetails.propTypes = propTypes;
 
 export default OrderDetails;

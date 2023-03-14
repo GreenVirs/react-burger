@@ -1,14 +1,6 @@
 import linkStyles from './navigation-link.module.css';
 import { useMemo, FC, PropsWithChildren } from "react";
 import { TIconProps } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils";
-import PropTypes from "prop-types";
-
-const propType = {
-    active: PropTypes.bool,
-    href: PropTypes.string.isRequired,
-    icon: PropTypes.func,
-    children: PropTypes.elementType.isRequired
-}
 
 type Props = PropsWithChildren<{
     active?: boolean,
@@ -34,8 +26,5 @@ const NavigationLink: FC<Props> = (props) => {
 NavigationLink.defaultProps = {
     active: false
 }
-
-//@ts-ignore
-NavigationLink.propTypes = propType;
 
 export default NavigationLink;

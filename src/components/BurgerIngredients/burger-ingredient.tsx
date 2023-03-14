@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from "react";
+import { FC } from "react";
 import PriceItem from "../PriceItem/price-item";
 import { Ingredient } from "../../models/ingridient";
 import ingredientsStyle from './burger-ingredients.module.css';

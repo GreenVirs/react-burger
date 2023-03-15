@@ -23,7 +23,7 @@ const BurgerIngredient: FC<Props> = (props) => {
             { typeof count !== 'undefined' && <Counter count={count} size="default" extraClass={ingredientsStyle.ingredient__count} /> }
         </li>
         {
-            isOpen && (<Modal onClose={onCloseModal}>
+            isOpen && (<Modal onClose={onCloseModal} title={'Детали ингредиента'} >
                 <IngredientDetails ingredient={ingredient} />
             </Modal>)
         }

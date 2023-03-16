@@ -1,0 +1,21 @@
+.header {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.header__logo, .header__actions, .header__nav {
+    display: flex;
+    align-items: center;
+}
+
+.header__nav {
+    justify-content: flex-start;
+}
+
+.header__logo {
+    justify-content: center;
+}
+
+.header__actions {
+    justify-content: flex-end;
+}

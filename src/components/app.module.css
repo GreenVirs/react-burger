@@ -1,0 +1,9 @@
+.main {
+    flex: 1 1 auto;
+    display: grid;
+    height: 100%;
+    grid-template-rows: 100%;
+    grid-template-columns: repeat(2, calc((100% - var(--offset-base-size) * 10) / 2));
+    overflow: hidden;
+    grid-gap: calc(var(--offset-base-size) * 10);
+}

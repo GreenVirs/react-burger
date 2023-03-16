@@ -1,0 +1,42 @@
+.ingredient {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__price {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--offset-base-size);
+  }
+
+  &__name {
+    display: inline-block;
+    height: 48px;
+    max-height: 48px;
+    text-align: center;
+  }
+
+  &__count {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  &__btn-title {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: inherit;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

@@ -1,34 +1,49 @@
-import {FC, useMemo} from "react";
-import { Ingredient } from "../../models/ingridient";
-import constructorStyles from './burger-constructor.module.css';
-import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
+import { FC, useMemo } from 'react';
+import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Ingredient } from '../../models/ingridient';
+import constructorStyles from './burger-constructor.module.scss';
 
-type Props = Ingredient & {
-    first?: boolean,
-    last?: boolean,
-    className?: string
+type Props = {
+  ingredient: Ingredient;
+  first?: boolean;
+  last?: boolean;
+  extraClass?: string;
 };
 
-const ConstructorIngredient: FC<Props> = (props) => {
-    const name = useMemo(() => {
-        return `${props.name}${props.first ? ' (верх)': ''}${props.last ? ' (низ)': ''}`
-    }, [props.name, props.first, props.last])
-
-    return (<div className={`${constructorStyles.item__wrapper}${props.className ? ` ${props.className}` : ''}`}>
-        { !props.first && !props.last && <DragIcon type={'primary'} />  }
-        <ConstructorElement
-            extraClass={constructorStyles.item}
-            price={props.price}
-            text={name}
-            thumbnail={props.image}
-            isLocked={props.first || props.last}
-            type={props.first ? 'top' : props.last ? 'bottom' : undefined} />
-    </div>)
-}
+const ConstructorIngredient: FC<Props> = ({ first, last, ingredient, extraClass }) => {
+  const name = useMemo(
+    () => `${ingredient.name}${first ? ' (верх)' : ''}${last ? ' (низ)' : ''}`,
+    [ingredient.name, first, last]
+  );
+  const type = useMemo(() => {
+    switch (true) {
+      case first:
+        return 'top';
+      case last:
+        return 'bottom';
+      default:
+        return undefined;
+    }
+  }, [first, last]);
+  return (
+    <div className={`${constructorStyles.item__wrapper}${extraClass ? ` ${extraClass}` : ''}`}>
+      {!first && !last && <DragIcon type="primary" />}
+      <ConstructorElement
+        extraClass={constructorStyles.item}
+        price={ingredient.price}
+        text={name}
+        thumbnail={ingredient.image}
+        isLocked={first || last}
+        type={type}
+      />
+    </div>
+  );
+};
 
 ConstructorIngredient.defaultProps = {
-    first: false,
-    last: false
-}
+  first: false,
+  last: false,
+  extraClass: undefined,
+};
 
 export default ConstructorIngredient;

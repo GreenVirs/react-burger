@@ -1,0 +1,8 @@
+.ingredient-details {
+  display: flex;
+  flex-direction: column;
+
+  &__name {
+    text-align: center;
+  }
+}

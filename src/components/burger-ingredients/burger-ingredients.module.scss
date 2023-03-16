@@ -1,0 +1,52 @@
+.tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    list-style: none;
+    padding-left: 0;
+}
+
+.ingredients {
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    box-sizing: border-box;
+
+    &__blocks-list {
+        flex: 1 1 auto;
+        overflow-y: auto;
+    }
+
+    &__list {
+        --gap-il: calc(var(--offset-base-size) * 6);
+        list-style: none;
+        padding-left: 0;
+        display: grid;
+        grid-template-columns: repeat(2, calc((100% - var(--gap-il)) / 2));
+        gap: var(--gap-il);
+    }
+
+    &__price--large svg {
+        width: 33px;
+        height: 33px;
+    }
+}
+
+
+.ingredients-attributes {
+    --gap-ia: calc(var(--offset-base-size) * 5);
+    display: grid;
+    grid-template-columns: repeat(4, calc((100% - calc(var(--gap-ia) * 3)) / 4));
+    grid-gap: var(--gap-ia);
+}
+
+.ingredients-attribute {
+    display: grid;
+    justify-content: center;
+
+    span {
+        white-space: nowrap;
+        display: flex;
+        justify-content: center;
+    }
+}
+

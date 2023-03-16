@@ -1,0 +1,32 @@
+.modal {
+    z-index: 1;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 80vh;
+    max-width: 80vw;
+    background: var(--background);
+    border-radius: var(--common-border-radius-s);
+    min-width: 720px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__content {
+        display: grid;
+        justify-content: stretch;
+        width: 520px;
+        margin: 0 auto;
+    }
+
+    &__close-btn {
+        cursor: pointer;
+        margin-left: auto;
+        border: none;
+        background: transparent;
+    }
+}

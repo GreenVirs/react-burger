@@ -1,9 +1,9 @@
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import NavigationLink from "../NavigationLink/navigation-link";
+import NavigationLink from "../navigation-link/navigation-link";
 import { FC } from 'react';
 
 import headerStyles from './app-header.module.css';
-import containerStyles from '../AppContainer/app-container.module.css';
+import containerStyles from '../app-container/app-container.module.css';
 const AppHeader: FC = () => {
     return (
         <header className={`${headerStyles.header} ${containerStyles.container} pt-4 pb-4`}>

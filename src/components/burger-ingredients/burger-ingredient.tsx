@@ -1,10 +1,10 @@
 import { FC } from "react";
-import PriceItem from "../PriceItem/price-item";
+import PriceItem from "../price-item/price-item";
 import { Ingredient } from "../../models/ingridient";
 import ingredientsStyle from './burger-ingredients.module.css';
 import IngredientDetails from "./ingredient-details";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../Modal/modal";
+import Modal from "../modal/modal";
 import { useModalControl } from "../../hooks/use-modal-control";
 
 type Props = Ingredient & { count?: number };

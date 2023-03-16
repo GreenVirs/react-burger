@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
-import { getRootModal } from "../../utils/getRootModal";
+import { getRootModal } from "../../utils/get-root-modal";
 import modalStyle from "./modal.module.css";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "./modal-overlay";

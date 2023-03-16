@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import AppHeader from "../components/AppHeader/app-header";
-import containerStyles from '../components/AppContainer/app-container.module.css';
-import BurgerConstructor from "../components/BurgerConstructor/burger-constructor";
-import BurgerIngredients from "../components/BurgerIngredients/burger-ingredients";
+import AppHeader from "./app-header/app-header";
+import containerStyles from './app-container/app-container.module.css';
+import BurgerConstructor from "./burger-constructor/burger-constructor";
+import BurgerIngredients from "./burger-ingredients/burger-ingredients";
 import appStyles from './app.module.css';
 import { Ingredient } from "../models/ingridient";
 import { ingredientsApi } from "../api";

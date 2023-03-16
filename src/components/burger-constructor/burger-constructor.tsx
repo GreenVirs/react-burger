@@ -4,9 +4,9 @@ import { Ingredient } from "../../models/ingridient";
 import ConstructorIngredient from "./constructor-ingredient";
 import constructorStyles from './burger-constructor.module.css';
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import PriceItem from "../PriceItem/price-item";
+import PriceItem from "../price-item/price-item";
 import OrderDetails from "./order-details";
-import Modal from "../Modal/modal";
+import Modal from "../modal/modal";
 import { useModalControl } from "../../hooks/use-modal-control";
 
 type Props = {

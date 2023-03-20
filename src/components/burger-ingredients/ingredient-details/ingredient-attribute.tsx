@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import burgerIngredientStyle from '../burger-ingredients.module.scss';
+import burgerIngredientStyle from './ingredient-details.module.scss';
 
 interface Props {
   title: string;

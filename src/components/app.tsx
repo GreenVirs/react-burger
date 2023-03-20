@@ -17,6 +17,7 @@ function App() {
           setData(res.data);
         }
       })
+      // eslint-disable-next-line no-console
       .catch((error) => console.log(`Ошибка ${error}`));
   }, []);
   return (

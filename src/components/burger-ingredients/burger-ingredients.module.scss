@@ -32,21 +32,5 @@
 }
 
 
-.ingredients-attributes {
-    --gap-ia: calc(var(--offset-base-size) * 5);
-    display: grid;
-    grid-template-columns: repeat(4, calc((100% - calc(var(--gap-ia) * 3)) / 4));
-    grid-gap: var(--gap-ia);
-}
 
-.ingredients-attribute {
-    display: grid;
-    justify-content: center;
-
-    span {
-        white-space: nowrap;
-        display: flex;
-        justify-content: center;
-    }
-}
 

@@ -37,9 +37,11 @@ const BurgerConstructor: FC<Props> = ({ items: propItems }) => {
       acc += item.price;
       return acc;
     }, 0);
+
     if (typeof items.bun[0] !== 'undefined') {
       return totalIngredients + items.bun[0].price;
     }
+
     return totalIngredients;
   }, [items.ingredients, items.bun]);
 

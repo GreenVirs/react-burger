@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Ingredient } from '../../../models/ingridient';
 import IngredientAttribute from './ingredient-attribute';
-import burgerIngredientsStyle from '../burger-ingredients.module.scss';
+import burgerIngredientsStyle from './ingredient-details.module.scss';
 
 interface Props {
   ingredient: Ingredient;

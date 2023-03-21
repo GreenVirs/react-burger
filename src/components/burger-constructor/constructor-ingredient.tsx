@@ -1,16 +1,30 @@
-import { FC, useMemo } from 'react';
+import { FC, useCallback, useContext, useMemo } from 'react';
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { clsx } from 'clsx';
 import { Ingredient } from '../../models/ingridient';
 import constructorStyles from './burger-constructor.module.scss';
+import { CONSTRUCTOR_ACTIONS_TYPE } from '../../services/actions/constructor';
+import { ConstructorContext } from '../../services/constructor-context';
 
 type Props = {
   ingredient: Ingredient;
+  id: string;
   first?: boolean;
   last?: boolean;
   extraClass?: string;
 };
 
-const ConstructorIngredient: FC<Props> = ({ first, last, ingredient, extraClass }) => {
+const ConstructorIngredient: FC<Props> = ({ first, last, ingredient, extraClass, id }) => {
+  const { dispatch } = useContext(ConstructorContext);
+  const wrapperClasses = useMemo(
+    () => clsx(constructorStyles.item__wrapper, extraClass),
+    [extraClass]
+  );
+
+  const onRemoveItem = useCallback(() => {
+    dispatch({ type: CONSTRUCTOR_ACTIONS_TYPE.REMOVE_ITEM, ingredient, id });
+  }, [dispatch, ingredient, id]);
+
   const name = useMemo(
     () => `${ingredient.name}${first ? ' (верх)' : ''}${last ? ' (низ)' : ''}`,
     [ingredient.name, first, last]
@@ -26,7 +40,7 @@ const ConstructorIngredient: FC<Props> = ({ first, last, ingredient, extraClass 
     }
   }, [first, last]);
   return (
-    <div className={`${constructorStyles.item__wrapper}${extraClass ? ` ${extraClass}` : ''}`}>
+    <div className={wrapperClasses}>
       {!first && !last && <DragIcon type="primary" />}
       <ConstructorElement
         extraClass={constructorStyles.item}
@@ -35,6 +49,7 @@ const ConstructorIngredient: FC<Props> = ({ first, last, ingredient, extraClass 
         thumbnail={ingredient.image}
         isLocked={first || last}
         type={type}
+        handleClose={onRemoveItem}
       />
     </div>
   );

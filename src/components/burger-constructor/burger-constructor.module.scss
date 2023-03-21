@@ -22,9 +22,11 @@
     }
 
     &__list {
+        composes: custom-scroll from global;
         flex: 1 1 auto;
         overflow-y: auto;
-        display: grid;
+        display: flex;
+        flex-direction: column;
         gap: calc(var(--offset-base-size) * 4);
     }
 
@@ -46,17 +48,4 @@
     }
 }
 
-.order-details {
-    display: flex;
-    flex-direction: column;
 
-    &__text {
-        text-align: center;
-    }
-
-    &__image {
-        width: 120px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-}

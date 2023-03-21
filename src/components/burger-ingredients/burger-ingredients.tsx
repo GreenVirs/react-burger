@@ -23,7 +23,7 @@ const BurgerIngredients: FC<Props> = ({ items }) => {
   );
 
   return (
-    <div className={`pt-10 ${ingredientsStyles.ingredients}`}>
+    <div className={ingredientsStyles.ingredients}>
       <h1 className="mb-5 text text_type_main-large">Соберите бургер</h1>
       <header className="mb-10">
         <ul className={ingredientsStyles.tabs}>

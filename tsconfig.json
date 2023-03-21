@@ -20,7 +20,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "types": [
-      "@ya.praktikum/react-developer-burger-ui-components/dist"
+      "@ya.praktikum/react-developer-burger-ui-components/dist",
+      "@types/uuid"
     ]
   },
   "include": [

@@ -28,9 +28,13 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "prettier/prettier": "error",
+        "prettier/prettier": ["error", { "endOfLine": "auto" }],
         "no-underscore-dangle": "off",
         "no-param-reassign": "off",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
         "react/function-component-definition": "off",
         "react/jsx-props-no-spreading": [1, { "html": "ignore" }],
@@ -49,7 +53,8 @@
     "settings": {
         "import/resolver": {
             "node": {
-                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+                "extensions": [".js", ".jsx", ".ts", ".tsx"],
+                "moduleDirectory": ["node_modules", "src/"]
             }
         }
     }

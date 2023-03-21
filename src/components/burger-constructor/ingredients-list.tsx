@@ -1,20 +1,19 @@
-import { FC, useMemo } from 'react';
-import { Ingredient } from '../../models/ingridient';
+import { FC, useContext, useMemo } from 'react';
 import ConstructorIngredient from './constructor-ingredient';
 import constructorStyles from './burger-constructor.module.scss';
+import { ConstructorContext } from '../../services/constructor-context';
 
-type Props = {
-  items: Ingredient[];
-};
-const IngredientsList: FC<Props> = ({ items: propsItems }) => {
+const IngredientsList: FC = () => {
+  const { items: propsItems } = useContext(ConstructorContext);
+
   const items = useMemo(
     () =>
-      propsItems.map((item: Ingredient) => (
-        <ConstructorIngredient key={item._id} ingredient={item} />
+      Object.entries(propsItems.ingredients).map(([key, { ingredient }]) => (
+        <ConstructorIngredient key={key} id={key} ingredient={ingredient} />
       )),
     [propsItems]
   );
-  return <div className={`custom-scroll ${constructorStyles.item__list}`}>{items}</div>;
+  return <div className={constructorStyles.item__list}>{items}</div>;
 };
 
 export default IngredientsList;

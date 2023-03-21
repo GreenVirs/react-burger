@@ -5,13 +5,16 @@ import {
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { FC } from 'react';
+import { clsx } from 'clsx';
 import NavigationLink from '../navigation-link/navigation-link';
 
 import headerStyles from './app-header.module.scss';
 import containerStyles from '../app-container/app-container.module.scss';
 
+const headerClasses = clsx(headerStyles.header, containerStyles.container);
+
 const AppHeader: FC = () => (
-  <header className={`${headerStyles.header} ${containerStyles.container} pt-4 pb-4`}>
+  <header className={headerClasses}>
     <nav className={headerStyles.header__nav}>
       <NavigationLink icon={BurgerIcon} href="#" active>
         Конструктор
@@ -23,7 +26,7 @@ const AppHeader: FC = () => (
     <span className={headerStyles.header__logo}>
       <Logo />
     </span>
-    <span className={headerStyles.header__logo}>
+    <span className={headerStyles.header__actions}>
       <NavigationLink icon={ProfileIcon} href="#">
         Личный кабинет
       </NavigationLink>

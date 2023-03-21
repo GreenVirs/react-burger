@@ -1,4 +1,5 @@
 .header {
+    composes: pt-4 pb-4 from global;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 

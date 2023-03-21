@@ -3,6 +3,7 @@
   flex-direction: column;
 
   &__name {
+    composes: mt-4 text text_type_main-medium from global;
     text-align: center;
   }
 }
@@ -15,6 +16,7 @@
 }
 
 .ingredients-attribute {
+  composes: text text_color_inactive text_type_main-default from global;
   display: grid;
   justify-content: center;
 

@@ -11,11 +11,7 @@ const IngredientDetails: FC<Props> = ({ ingredient }) => (
     <div className="pr-5 pl-5">
       <img src={ingredient.image_large} alt={ingredient.name} />
     </div>
-    <span
-      className={`mt-4 text text_type_main-medium ${ingredientStyle['ingredient-details__name']}`}
-    >
-      {ingredient.name}
-    </span>
+    <span className={ingredientStyle['ingredient-details__name']}>{ingredient.name}</span>
     <IngredientAttributeList extraClass="mt-8" ingredient={ingredient} />
   </div>
 );

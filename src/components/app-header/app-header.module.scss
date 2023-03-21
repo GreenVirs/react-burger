@@ -1,0 +1,25 @@
+.header {
+    composes: pt-4 pb-4 from global;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    &__logo, &__actions, &__nav {
+        display: flex;
+        align-items: center;
+    }
+
+    &__nav {
+        justify-content: flex-start;
+    }
+
+    &__logo {
+        justify-content: center;
+    }
+
+    &__actions {
+        justify-content: flex-end;
+    }
+}
+
+
+

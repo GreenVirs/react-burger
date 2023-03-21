@@ -1,0 +1,27 @@
+.order-details {
+  display: flex;
+  flex-direction: column;
+
+  &__text {
+    text-align: center;
+  }
+
+  &__number {
+    composes: text text_type_digits-large from global;
+  }
+
+  &__identifier {
+    composes: mt-8 text text_type_main-medium from global;
+  }
+
+  &__inactive-text {
+    composes: mt-2 mb-15 text_color_inactive from global;
+  }
+
+  &__image {
+    composes: mt-15 from global;
+    width: 120px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

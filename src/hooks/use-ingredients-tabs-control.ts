@@ -51,12 +51,17 @@ export const useIngredientsTabsControl = () => {
         if (!entry.isIntersecting) {
           return acc;
         }
-        if (entry.intersectionRatio > acc.value) {
-          return { value: entry.intersectionRatio, id: entry.target.id as IngredientTypes };
+
+        if (entry.rootBounds === null || !('y' in entry.rootBounds)) {
+          return acc;
+        }
+        const calc = entry.intersectionRect.top - entry.rootBounds.top;
+        if (calc < acc.value) {
+          return { value: entry.intersectionRect.y, id: entry.target.id as IngredientTypes };
         }
         return acc;
       },
-      { value: 0, id: null } as { value: number; id: IngredientTypes | null }
+      { value: Infinity, id: null } as { value: number; id: IngredientTypes | null }
     );
     if (tab.id !== null) {
       setCurrent({ type: 'set', payload: tab.id });
@@ -67,7 +72,7 @@ export const useIngredientsTabsControl = () => {
     [bunRef, sauceRef, mainRef],
     callbackObserver,
     {
-      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+      threshold: [1],
       rootMargin: '0px 0px 0px 0px',
     },
     rootRef

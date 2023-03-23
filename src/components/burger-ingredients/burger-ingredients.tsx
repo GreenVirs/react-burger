@@ -1,47 +1,49 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { FC, useMemo, useState } from 'react';
+import { FC, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import ingredientsStyles from './burger-ingredients.module.scss';
 import { Ingredient } from '../../models/ingridient';
 import BurgerIngredientsBlock from './burger-ingredients-block/burger-ingredients-block';
+import { RootState } from '../../store';
+import { useIngredientsTabsControl } from '../../hooks/use-ingredients-tabs-control';
 
-type Props = {
-  items: Ingredient[];
-};
+const BurgerIngredients: FC = () => {
+  const { items } = useSelector<RootState, { items: Ingredient[] }>((state) => state.ingredients);
 
-const BurgerIngredients: FC<Props> = ({ items }) => {
-  const [current, setCurrent] = useState('bun');
-  const { bun, sauce, main } = useMemo(
-    () =>
-      items.reduce(
-        (acc, item) => {
-          acc[item.type].push(item);
-          return acc;
-        },
-        { bun: [], main: [], sauce: [] } as Record<Ingredient['type'], Ingredient[]>
-      ),
-    [items]
-  );
+  const { currentTab, bunRef, sauceRef, mainRef, rootRef, onScrollTo } =
+    useIngredientsTabsControl();
+
+  const { bun, sauce, main } = useMemo(() => {
+    const values: Record<Ingredient['type'], Ingredient[]> = { bun: [], main: [], sauce: [] };
+    if (items === null) {
+      return values;
+    }
+    return items.reduce((acc, item) => {
+      acc[item.type].push(item);
+      return acc;
+    }, values);
+  }, [items]);
 
   return (
-    <div className={ingredientsStyles.ingredients}>
+    <div ref={rootRef} className={ingredientsStyles.ingredients}>
       <h1 className="mb-5 text text_type_main-large">Соберите бургер</h1>
       <header className="mb-10">
         <ul className={ingredientsStyles.tabs}>
-          <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
+          <Tab value="bun" active={currentTab === 'bun'} onClick={onScrollTo}>
             Булки
           </Tab>
-          <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
+          <Tab value="sauce" active={currentTab === 'sauce'} onClick={onScrollTo}>
             Соусы
           </Tab>
-          <Tab value="main" active={current === 'main'} onClick={setCurrent}>
+          <Tab value="main" active={currentTab === 'main'} onClick={onScrollTo}>
             Начинки
           </Tab>
         </ul>
       </header>
       <div className={`custom-scroll ${ingredientsStyles['ingredients__blocks-list']}`}>
-        <BurgerIngredientsBlock id="bun" title="Булки" items={bun} />
-        <BurgerIngredientsBlock id="sauce" title="Соусы" items={sauce} />
-        <BurgerIngredientsBlock id="main" title="Начинки" items={main} />
+        <BurgerIngredientsBlock ref={bunRef} id="bun" title="Булки" items={bun} />
+        <BurgerIngredientsBlock ref={sauceRef} id="sauce" title="Соусы" items={sauce} />
+        <BurgerIngredientsBlock ref={mainRef} id="main" title="Начинки" items={main} />
       </div>
     </div>
   );

@@ -2,6 +2,8 @@ import { mande } from 'mande';
 
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 
-export const ingredientsApi = mande(`${BASE_URL}/ingredients`);
+const createEntrypoint = (entrypoint: string) => mande(`${BASE_URL}/${entrypoint}`);
 
-export const ordersApi = mande(`${BASE_URL}/orders`);
+export const ingredientsApi = createEntrypoint('ingredients');
+
+export const ordersApi = createEntrypoint('orders');

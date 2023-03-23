@@ -1,17 +1,19 @@
-import { FC } from 'react';
+import { forwardRef } from 'react';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
-import { Ingredient } from '../../../models/ingridient';
+import { Ingredient, IngredientTypes } from '../../../models/ingridient';
 import ingredientsStyle from '../burger-ingredients.module.scss';
 
 type Props = {
   title: string;
-  id: string;
+  id: IngredientTypes;
   items: Ingredient[];
 };
 
-const BurgerIngredientsBlock: FC<Props> = ({ items, id, title }) => (
+export type Ref<T extends HTMLElement = HTMLHeadingElement> = T;
+
+const BurgerIngredientsBlock = forwardRef<Ref, Props>(({ items, id, title }, ref) => (
   <div>
-    <h2 id={id} className="text text_type_main-medium">
+    <h2 ref={ref} id={id} className="text text_type_main-medium">
       {title}
     </h2>
     <ul className={ingredientsStyle.ingredients__list}>
@@ -20,6 +22,6 @@ const BurgerIngredientsBlock: FC<Props> = ({ items, id, title }) => (
       ))}
     </ul>
   </div>
-);
+));
 
 export default BurgerIngredientsBlock;

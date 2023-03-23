@@ -1,40 +1,76 @@
-import { useEffect, useMemo, useReducer, useState } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 import AppHeader from './app-header/app-header';
 import containerStyles from './app-container/app-container.module.scss';
 import BurgerConstructor from './burger-constructor/burger-constructor';
 import BurgerIngredients from './burger-ingredients/burger-ingredients';
 import appStyles from './app.module.css';
-import { Ingredient } from '../models/ingridient';
-import { ingredientsApi } from '../api';
-import { ConstructorContext, ConstructorContextType } from '../services/constructor-context';
-import { reducer } from '../services/reducers/constructor';
+import { AppDispatch, RootState } from '../store';
+import { GET_INGREDIENTS } from '../services/actions/ingredients';
+import Modal from './modal/modal';
+import IngredientDetails from './burger-ingredients/ingredient-details/ingredient-details';
+import {
+  CLEAR as CLEAR_CURRENT_INGREDIENT,
+  CurrentIngredientState,
+} from '../services/reducers/current-ingredient';
+import { IngredientsState } from '../services/reducers/ingredients';
+import OrderDetails from './burger-constructor/order-details/order-details';
+import { CLEAR as CLEAR_ORDER, OrderState } from '../services/reducers/order';
+import { CLEAR_ITEMS } from '../services/reducers/constructor';
 
 function App() {
-  const [data, setData] = useState<Ingredient[]>([]);
-  const [items, dispatch] = useReducer(reducer, { bun: null, ingredients: {} });
-  const constructorContext = useMemo<ConstructorContextType>(
-    () => ({ items, dispatch }),
-    [items, dispatch]
-  );
+  const {
+    ingredients: { isLoading },
+    currentIngredient: { ingredient, isOpenModal: isOpenModalIngredient },
+    order: { order, isOpenModal: isOpenModalOrder },
+  } = useSelector<
+    RootState,
+    { ingredients: IngredientsState; currentIngredient: CurrentIngredientState; order: OrderState }
+  >((state) => ({
+    ingredients: state.ingredients,
+    currentIngredient: state.currentIngredient,
+    order: state.order,
+  }));
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const onCloseModalIngredient = useCallback(() => {
+    dispatch(CLEAR_CURRENT_INGREDIENT());
+  }, [dispatch]);
+
+  const onCloseModalOrder = useCallback(() => {
+    dispatch(CLEAR_ITEMS());
+    dispatch(CLEAR_ORDER());
+  }, [dispatch]);
+
   useEffect(() => {
-    ingredientsApi
-      .get<{ success: boolean; data: Ingredient[] }>()
-      .then((res) => {
-        if (res.success) {
-          setData(res.data);
-        }
-      })
-      // eslint-disable-next-line no-console
-      .catch((error) => console.log(`Ошибка ${error}`));
-  }, []);
+    dispatch(GET_INGREDIENTS());
+  }, [dispatch]);
+
   return (
     <>
       <AppHeader />
       <main className={`${containerStyles.container} ${appStyles.main}`}>
-        <ConstructorContext.Provider value={constructorContext}>
-          <BurgerIngredients items={data} />
-          <BurgerConstructor />
-        </ConstructorContext.Provider>
+        {isLoading ? (
+          <span className="text text_type_main-default">Загрузка ингредиентов</span>
+        ) : (
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+            {isOpenModalIngredient && ingredient !== null && (
+              <Modal onClose={onCloseModalIngredient} title="Детали ингредиента">
+                <IngredientDetails ingredient={ingredient} />
+              </Modal>
+            )}
+            {isOpenModalOrder && order !== null && (
+              <Modal onClose={onCloseModalOrder}>
+                <OrderDetails order={order} />
+              </Modal>
+            )}
+          </DndProvider>
+        )}
       </main>
     </>
   );

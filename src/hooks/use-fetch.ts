@@ -13,7 +13,7 @@ export const useFetch = <
     url: string | number,
     options?: Options<'json'>
   ) => MandeResponse<{ data: T; success: boolean }, 'json'>,
-  initParams: A,
+  initParams?: A,
   options?: Options<'json'>
 ): {
   data: T | null;
@@ -22,7 +22,7 @@ export const useFetch = <
 } => {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [params, setParams] = useState<A>(initParams);
+  const [params, setParams] = useState<A>(initParams || ('' as A));
 
   useEffect(() => {
     setIsLoading(true);

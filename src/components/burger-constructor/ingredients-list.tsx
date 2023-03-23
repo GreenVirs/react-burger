@@ -1,17 +1,19 @@
-import { FC, useContext, useMemo } from 'react';
+import { FC, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import ConstructorIngredient from './constructor-ingredient';
 import constructorStyles from './burger-constructor.module.scss';
-import { ConstructorContext } from '../../services/constructor-context';
+import { ConstructorState } from '../../services/reducers/constructor';
+import { RootState } from '../../store';
 
 const IngredientsList: FC = () => {
-  const { items: propsItems } = useContext(ConstructorContext);
+  const { ingredients } = useSelector<RootState, ConstructorState>((state) => state.builder);
 
   const items = useMemo(
     () =>
-      Object.entries(propsItems.ingredients).map(([key, { ingredient }]) => (
+      Object.entries(ingredients).map(([key, { ingredient }]) => (
         <ConstructorIngredient key={key} id={key} ingredient={ingredient} />
       )),
-    [propsItems]
+    [ingredients]
   );
   return <div className={constructorStyles.item__list}>{items}</div>;
 };

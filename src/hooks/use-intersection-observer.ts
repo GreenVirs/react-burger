@@ -1,30 +1,33 @@
 import { RefObject, useEffect } from 'react';
 
 export function useIntersectionObserver<T extends HTMLElement = HTMLElement>(
-  elementRef: RefObject<T>,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  cb?: (...any: any[]) => void,
+  elementRef: RefObject<T> | RefObject<T>[],
+  cb: IntersectionObserverCallback,
   options: IntersectionObserverInit = { threshold: 0, root: null, rootMargin: '0%' }
 ): void {
-  const updateEntry = ([entry]: IntersectionObserverEntry[]): void => {
-    if (typeof cb === 'function') {
-      cb(entry);
-    }
+  const updateEntry: IntersectionObserverCallback = (entries, observer) => {
+    cb(entries, observer);
   };
 
   useEffect(() => {
-    const node = elementRef?.current; // DOM Ref
     const hasIOSupport = !!window.IntersectionObserver;
 
-    if (!hasIOSupport || !node) return;
-
+    if (!hasIOSupport) return;
     const observer = new IntersectionObserver(updateEntry, options);
 
-    observer.observe(node);
+    if (Array.isArray(elementRef)) {
+      elementRef.forEach((item) => {
+        if (item?.current) {
+          observer.observe(item.current);
+        }
+      });
+    } else if (elementRef?.current) {
+      observer.observe(elementRef.current);
+    }
 
     // eslint-disable-next-line consistent-return
     return () => observer.disconnect();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [elementRef?.current, options]);
+  }, [elementRef, options]);
 }

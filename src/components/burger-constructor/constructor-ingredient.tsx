@@ -1,10 +1,10 @@
-import { FC, useCallback, useContext, useMemo } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
+import { useDispatch } from 'react-redux';
 import { Ingredient } from '../../models/ingridient';
 import constructorStyles from './burger-constructor.module.scss';
-import { CONSTRUCTOR_ACTIONS_TYPE } from '../../services/actions/constructor';
-import { ConstructorContext } from '../../services/constructor-context';
+import { REMOVE_ITEM } from '../../services/reducers/constructor';
 
 type Props = {
   ingredient: Ingredient;
@@ -15,14 +15,15 @@ type Props = {
 };
 
 const ConstructorIngredient: FC<Props> = ({ first, last, ingredient, extraClass, id }) => {
-  const { dispatch } = useContext(ConstructorContext);
+  const dispatch = useDispatch();
+
   const wrapperClasses = useMemo(
     () => clsx(constructorStyles.item__wrapper, extraClass),
     [extraClass]
   );
 
   const onRemoveItem = useCallback(() => {
-    dispatch({ type: CONSTRUCTOR_ACTIONS_TYPE.REMOVE_ITEM, ingredient, id });
+    dispatch(REMOVE_ITEM({ ingredient, id }));
   }, [dispatch, ingredient, id]);
 
   const name = useMemo(

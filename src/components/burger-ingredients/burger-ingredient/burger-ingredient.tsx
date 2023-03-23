@@ -1,14 +1,15 @@
-import { FC, useCallback, useContext, useMemo } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { v4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
+import { ADD_ITEM, ConstructorState } from '../../../services/reducers/constructor';
 import PriceItem from '../../price-item/price-item';
 import { Ingredient } from '../../../models/ingridient';
 import ingredientsStyle from './burger-ingredient.module.scss';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../../modal/modal';
 import { useModalControl } from '../../../hooks/use-modal-control';
-import { ConstructorContext } from '../../../services/constructor-context';
-import { CONSTRUCTOR_ACTIONS_TYPE } from '../../../services/actions/constructor';
+import { RootState } from '../../../store';
 
 interface Props {
   ingredient: Ingredient;
@@ -16,7 +17,8 @@ interface Props {
 
 const BurgerIngredient: FC<Props> = ({ ingredient }) => {
   const { isOpen, onOpenModal, onCloseModal } = useModalControl(false);
-  const { items, dispatch } = useContext(ConstructorContext);
+  const dispatch = useDispatch();
+  const items = useSelector<RootState, ConstructorState>((state) => state.builder);
   const count = useMemo<number | null>(() => {
     if (ingredient.type !== 'bun') {
       const itemsList = Object.values(items.ingredients).filter(
@@ -32,7 +34,7 @@ const BurgerIngredient: FC<Props> = ({ ingredient }) => {
   }, [items, ingredient]);
 
   const onClickItem = useCallback(() => {
-    dispatch({ type: CONSTRUCTOR_ACTIONS_TYPE.ADD_ITEM, ingredient, id: v4() });
+    dispatch(ADD_ITEM({ ingredient, id: v4() }));
     onOpenModal();
   }, [onOpenModal, dispatch, ingredient]);
 

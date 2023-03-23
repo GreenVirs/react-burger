@@ -1,73 +1,79 @@
 import { v4 } from 'uuid';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Ingredient } from '../../models/ingridient';
-import { ConstructorContextType } from '../constructor-context';
 import { CONSTRUCTOR_ACTIONS_TYPE } from '../actions/constructor';
 
-export type ReducerAction =
+export type ConstructorReducerAction =
   | {
-      ingredient: Ingredient;
       type: CONSTRUCTOR_ACTIONS_TYPE.ADD_ITEM;
       id: string;
+      ingredient: Ingredient;
     }
   | {
-      ingredient: Ingredient;
       type: CONSTRUCTOR_ACTIONS_TYPE.REMOVE_ITEM;
+      ingredient: Ingredient;
       id: string;
     }
   | {
       type: CONSTRUCTOR_ACTIONS_TYPE.CLEAR_ITEMS;
     };
-export const reducer = (state: ConstructorContextType['items'], action: ReducerAction) => {
-  switch (action.type) {
-    case CONSTRUCTOR_ACTIONS_TYPE.ADD_ITEM: {
-      if (action.ingredient.type === 'bun') {
-        return {
-          ...state,
-          bun: action.ingredient,
-        };
+
+export interface ConstructorState {
+  bun: Ingredient | null;
+  ingredients: Record<string, { ingredient: Ingredient }>;
+}
+
+const initialState: ConstructorState = {
+  bun: null,
+  ingredients: {},
+};
+
+const constructorSlice = createSlice({
+  initialState,
+  name: 'builder',
+  reducers: {
+    [CONSTRUCTOR_ACTIONS_TYPE.ADD_ITEM]: (
+      state,
+      action: PayloadAction<{
+        id: string;
+        ingredient: Ingredient;
+      }>
+    ) => {
+      if (action.payload.ingredient.type === 'bun') {
+        state.bun = action.payload.ingredient;
+        return;
       }
-      return {
-        ...state,
-        ingredients: {
-          ...state.ingredients,
-          [v4()]: {
-            ingredient: action.ingredient,
-          },
+      state.ingredients = {
+        ...state.ingredients,
+        [v4()]: {
+          ingredient: action.payload.ingredient,
         },
       };
-    }
-    case CONSTRUCTOR_ACTIONS_TYPE.REMOVE_ITEM: {
-      if (action.ingredient.type === 'bun') {
+    },
+    [CONSTRUCTOR_ACTIONS_TYPE.REMOVE_ITEM]: (
+      state,
+      action: PayloadAction<{ ingredient: Ingredient; id: string }>
+    ) => {
+      if (action.payload.ingredient.type === 'bun') {
         if (state.bun === null) {
-          return state;
+          return;
         }
-        if (action.ingredient._id === state.bun._id) {
-          return {
-            ...state,
-            bun: null,
-          };
+        if (action.payload.ingredient._id === state.bun._id) {
+          state.bun = null;
         }
-        return state;
+        return;
       }
-      if (action.id in state.ingredients) {
+      if (action.payload.id in state.ingredients) {
         const ingredients = { ...state.ingredients };
-        delete ingredients[action.id];
-        return {
-          ...state,
-          ingredients,
-        };
+        delete ingredients[action.payload.id];
+        state.ingredients = ingredients;
       }
-      return state;
-    }
-    case CONSTRUCTOR_ACTIONS_TYPE.CLEAR_ITEMS: {
-      return {
-        ...state,
-        bun: null,
-        ingredients: {},
-      };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+    },
+    [CONSTRUCTOR_ACTIONS_TYPE.CLEAR_ITEMS]: (state) => {
+      state.bun = null;
+      state.ingredients = {};
+    },
+  },
+});
+export const { CLEAR_ITEMS, ADD_ITEM, REMOVE_ITEM } = constructorSlice.actions;
+export const constructorReducer = constructorSlice.reducer;

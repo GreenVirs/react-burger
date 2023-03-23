@@ -1,38 +1,45 @@
-import { Reducer } from 'redux';
+import { createSlice } from '@reduxjs/toolkit';
 import { Order } from '../../models/order';
-import { ORDER } from '../actions/order';
+import { ORDER, CREATE_ORDER } from '../actions/order';
 
-interface OrderState {
+export interface OrderState {
   order: Order | null;
+  isLoading: boolean;
+  isOpenModal: boolean;
 }
 
-const initState: OrderState = {
+export const initialState: OrderState = {
   order: null,
+  isLoading: false,
+  isOpenModal: false,
 };
 
-type OrderAction =
-  | {
-      type: ORDER.SET;
-      order: Order;
-    }
-  | { type: ORDER.CLEAR };
+export const orderSlice = createSlice({
+  name: 'order',
+  initialState,
+  reducers: {
+    [ORDER.CLEAR]: (state) => {
+      state.order = null;
+      state.isOpenModal = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(CREATE_ORDER.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(CREATE_ORDER.fulfilled, (state, action) => {
+      const { success, ...order } = action.payload;
+      if (success) {
+        state.order = order;
+        state.isOpenModal = true;
+      }
+      state.isLoading = false;
+    });
+    builder.addCase(CREATE_ORDER.rejected, (state) => {
+      state.isLoading = false;
+    });
+  },
+});
 
-export const orderReducer: Reducer<OrderState, OrderAction> = (state = initState, action) => {
-  switch (action.type) {
-    case ORDER.SET: {
-      return {
-        ...state,
-        order: action.order,
-      };
-    }
-    case ORDER.CLEAR: {
-      return {
-        ...state,
-        order: null,
-      };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+export const { CLEAR } = orderSlice.actions;
+export const orderReducer = orderSlice.reducer;

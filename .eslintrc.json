@@ -39,7 +39,7 @@
         "@typescript-eslint/no-shadow": ["error"],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
         "react/function-component-definition": "off",
-        "react/jsx-props-no-spreading": [1, { "html": "ignore" }],
+        "react/jsx-props-no-spreading": "off",
         "import/extensions": [
             "error",
             "ignorePackages",

@@ -1,37 +1,44 @@
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
 import { v4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
 import IngredientsList from './ingredients-list';
 import ConstructorIngredient from './constructor-ingredient';
 import constructorStyles from './burger-constructor.module.scss';
 import PriceItem from '../price-item/price-item';
-import OrderDetails from './order-details/order-details';
-import Modal from '../modal/modal';
-import { useModalControl } from '../../hooks/use-modal-control';
-import { ordersApi } from '../../api';
 import { Order } from '../../models/order';
-import { RootState } from '../../store';
-import { ConstructorState, CLEAR_ITEMS } from '../../services/reducers/constructor';
+import { AppDispatch, RootState } from '../../store';
+import { ConstructorState, ADD_ITEM } from '../../services/reducers/constructor';
+import { CREATE_ORDER } from '../../services/actions/order';
+import { Ingredient } from '../../models/ingridient';
 
 const constructorClasses = clsx('pt-25 pb-4', constructorStyles.constructor);
 const resultClasses = clsx('mt-10', constructorStyles.result);
 
 const BurgerConstructor: FC = () => {
-  const { isOpen, onOpenModal, onCloseModal } = useModalControl(false);
-  const [order, setOrder] = useState<Order | null>(null);
-  const dispatch = useDispatch();
-  const { bun, ingredients } = useSelector<RootState, ConstructorState>((state) => ({
-    bun: state.builder.bun,
-    ingredients: state.builder.ingredients,
-  }));
+  const dispatch = useDispatch<AppDispatch>();
+  const { bun, ingredients } = useSelector<RootState, ConstructorState & { order: Order | null }>(
+    (state) => ({
+      bun: state.builder.bun,
+      ingredients: state.builder.ingredients,
+      order: state.order.order,
+    })
+  );
+
+  const [, dropTargetRef] = useDrop({
+    accept: 'add',
+    drop(item: Ingredient) {
+      dispatch(ADD_ITEM({ ingredient: item }));
+    },
+  });
 
   const total = useMemo(() => {
     if (!ingredients) {
       return 0;
     }
-    const totalIngredients = Object.values(ingredients).reduce((acc, { ingredient }) => {
+    const totalIngredients = ingredients.reduce((acc, { ingredient }) => {
       acc += ingredient.price;
       return acc;
     }, 0);
@@ -48,7 +55,7 @@ const BurgerConstructor: FC = () => {
     if (bun !== null) {
       ingredientsList.push(bun._id);
     }
-    Object.values(ingredients).reduce((acc, { ingredient }) => {
+    ingredients.reduce((acc, { ingredient }) => {
       acc.push(ingredient._id);
       return acc;
     }, ingredientsList);
@@ -56,49 +63,24 @@ const BurgerConstructor: FC = () => {
     if (bun !== null) {
       ingredientsList.push(bun._id);
     }
-    ordersApi
-      .post<Order & { success: boolean }>({
-        ingredients,
-      })
-      .then((res) => {
-        const { success, ...newOrder } = res;
-        if (success) {
-          setOrder(newOrder);
-          onOpenModal();
-        }
-      })
-      .catch((e) => {
-        // eslint-disable-next-line no-console
-        console.log(`Ошибка ${e}`);
-      });
-  }, [ingredients, bun, onOpenModal]);
-
-  const onClose = useCallback(() => {
-    onCloseModal();
-    setOrder(null);
-    dispatch(CLEAR_ITEMS());
-  }, [onCloseModal, setOrder, dispatch]);
+    dispatch(CREATE_ORDER({ ingredients: ingredientsList }));
+  }, [dispatch, ingredients, bun]);
 
   return (
-    <div className={constructorClasses}>
+    <div className={constructorClasses} ref={dropTargetRef}>
       {bun && <ConstructorIngredient id={v4()} extraClass="mb-4" first ingredient={bun} />}
       <IngredientsList />
       {bun && <ConstructorIngredient id={v4()} extraClass="mt-4" last ingredient={bun} />}
       <div className={resultClasses}>
         <PriceItem large price={total} />
         <Button
-          disabled={bun === null || (ingredients && Object.values(ingredients).length === 0)}
+          disabled={bun === null || ingredients.length === 0}
           onClick={onCreateOrder}
           htmlType="button"
         >
           Оформить заказ
         </Button>
       </div>
-      {isOpen && order !== null && (
-        <Modal onClose={onClose}>
-          <OrderDetails order={order} />
-        </Modal>
-      )}
     </div>
   );
 };

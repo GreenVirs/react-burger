@@ -1,43 +1,31 @@
-import { Reducer } from 'redux';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Ingredient } from '../../models/ingridient';
 import { CURRENT_INGREDIENT } from '../actions/current-ingredient';
 
 export interface CurrentIngredientState {
   ingredient: Ingredient | null;
+  isOpenModal: boolean;
 }
 
-const initState = {
+export const initialState: CurrentIngredientState = {
   ingredient: null,
+  isOpenModal: false,
 };
 
-export type CurrentIngredientAction =
-  | {
-      type: CURRENT_INGREDIENT.SET;
-      ingredient: Ingredient;
-    }
-  | {
-      type: CURRENT_INGREDIENT.CLEAR;
-    };
+const currentIngredientSlice = createSlice({
+  name: 'currentIngredient',
+  initialState,
+  reducers: {
+    [CURRENT_INGREDIENT.SET]: (state, action: PayloadAction<{ ingredient: Ingredient }>) => {
+      state.ingredient = action.payload.ingredient;
+      state.isOpenModal = true;
+    },
+    [CURRENT_INGREDIENT.CLEAR]: (state) => {
+      state.ingredient = null;
+      state.isOpenModal = false;
+    },
+  },
+});
 
-export const currentIngredientReducer: Reducer<CurrentIngredientState, CurrentIngredientAction> = (
-  state = initState,
-  action
-) => {
-  switch (action.type) {
-    case CURRENT_INGREDIENT.SET: {
-      return {
-        ...state,
-        ingredient: action.ingredient,
-      };
-    }
-    case CURRENT_INGREDIENT.CLEAR: {
-      return {
-        ...state,
-        ...initState,
-      };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+export const { SET, CLEAR } = currentIngredientSlice.actions;
+export const currentIngredientReducer = currentIngredientSlice.reducer;

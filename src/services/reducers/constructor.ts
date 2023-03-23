@@ -3,29 +3,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Ingredient } from '../../models/ingridient';
 import { CONSTRUCTOR_ACTIONS_TYPE } from '../actions/constructor';
 
-export type ConstructorReducerAction =
-  | {
-      type: CONSTRUCTOR_ACTIONS_TYPE.ADD_ITEM;
-      id: string;
-      ingredient: Ingredient;
-    }
-  | {
-      type: CONSTRUCTOR_ACTIONS_TYPE.REMOVE_ITEM;
-      ingredient: Ingredient;
-      id: string;
-    }
-  | {
-      type: CONSTRUCTOR_ACTIONS_TYPE.CLEAR_ITEMS;
-    };
-
 export interface ConstructorState {
   bun: Ingredient | null;
-  ingredients: Record<string, { ingredient: Ingredient }>;
+  ingredients: { ingredient: Ingredient; id: string }[];
 }
 
-const initialState: ConstructorState = {
+export const initialState: ConstructorState = {
   bun: null,
-  ingredients: {},
+  ingredients: [],
 };
 
 const constructorSlice = createSlice({
@@ -35,7 +20,6 @@ const constructorSlice = createSlice({
     [CONSTRUCTOR_ACTIONS_TYPE.ADD_ITEM]: (
       state,
       action: PayloadAction<{
-        id: string;
         ingredient: Ingredient;
       }>
     ) => {
@@ -43,12 +27,10 @@ const constructorSlice = createSlice({
         state.bun = action.payload.ingredient;
         return;
       }
-      state.ingredients = {
-        ...state.ingredients,
-        [v4()]: {
-          ingredient: action.payload.ingredient,
-        },
-      };
+      state.ingredients.push({
+        id: v4(),
+        ingredient: action.payload.ingredient,
+      });
     },
     [CONSTRUCTOR_ACTIONS_TYPE.REMOVE_ITEM]: (
       state,
@@ -63,17 +45,20 @@ const constructorSlice = createSlice({
         }
         return;
       }
-      if (action.payload.id in state.ingredients) {
-        const ingredients = { ...state.ingredients };
-        delete ingredients[action.payload.id];
-        state.ingredients = ingredients;
-      }
+      state.ingredients = state.ingredients.filter((item) => item.id !== action.payload.id);
     },
     [CONSTRUCTOR_ACTIONS_TYPE.CLEAR_ITEMS]: (state) => {
       state.bun = null;
-      state.ingredients = {};
+      state.ingredients = [];
+    },
+    [CONSTRUCTOR_ACTIONS_TYPE.SORT_ITEMS]: (
+      state,
+      action: PayloadAction<{ from: number; to: number }>
+    ) => {
+      const [target] = state.ingredients.splice(action.payload.from, 1);
+      state.ingredients.splice(action.payload.to, 0, target);
     },
   },
 });
-export const { CLEAR_ITEMS, ADD_ITEM, REMOVE_ITEM } = constructorSlice.actions;
+export const { CLEAR_ITEMS, ADD_ITEM, REMOVE_ITEM, SORT_ITEMS } = constructorSlice.actions;
 export const constructorReducer = constructorSlice.reducer;

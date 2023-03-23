@@ -1,17 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from '../services/reducers';
+import { initialState as initialStateOrder } from '../services/reducers/order';
+import { initialState as initialStateIngredients } from '../services/reducers/ingredients';
+import { initialState as initialStateConstructor } from '../services/reducers/constructor';
+import { initialState as initialStateCurrentIngredient } from '../services/reducers/current-ingredient';
 
 export const store = configureStore({
   reducer: rootReducer,
   preloadedState: {
-    ingredients: {
-      items: [],
-      isLoading: false,
-    },
-    builder: {
-      ingredients: {},
-      bun: null,
-    },
+    ingredients: initialStateIngredients,
+    builder: initialStateConstructor,
+    order: initialStateOrder,
+    currentIngredient: initialStateCurrentIngredient,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -4,6 +4,6 @@ import { Ingredient } from '../../models/ingridient';
 
 type ApiReturned = { success: boolean; data: Ingredient[] };
 
-export const GET_INGREDIENTS = createAsyncThunk<ApiReturned, void>('GET_INGREDIENTS', () =>
+export const GET_INGREDIENTS = createAsyncThunk<ApiReturned>('GET_INGREDIENTS', () =>
   ingredientsApi.get<ApiReturned>()
 );

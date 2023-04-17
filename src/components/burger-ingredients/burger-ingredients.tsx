@@ -1,14 +1,14 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { FC, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import ingredientsStyles from './burger-ingredients.module.scss';
 import { Ingredient } from '../../models/ingridient';
 import BurgerIngredientsBlock from './burger-ingredients-block/burger-ingredients-block';
-import { RootState } from '../../store';
 import { useIngredientsTabsControl } from '../../hooks/use-ingredients-tabs-control';
+import { useRootSelector } from '../../hooks/use-root-selector';
+import { selectIngredients } from '../../services/reducers/ingredients';
 
 const BurgerIngredients: FC = () => {
-  const { items } = useSelector<RootState, { items: Ingredient[] }>((state) => state.ingredients);
+  const { items } = useRootSelector(selectIngredients);
 
   const { currentTab, bunRef, sauceRef, mainRef, rootRef, onScrollTo } =
     useIngredientsTabsControl();

@@ -13,6 +13,14 @@ import { OnlyAuth, OnlyUnAuth } from '../protected-route-element/protected-route
 import UserForm from '../user-form';
 import Logout from '../../pages/logout';
 
+export const routeHome = '/';
+export const routeIngredient = (id: string) => `/ingredients/${id}`;
+export const routeProfile = '/profile';
+export const routeLogin = '/login';
+export const routeRegister = '/register';
+export const routeForgotPassword = '/forgot-password';
+export const routeResetPassword = '/reset-password';
+export const routeLogout = '/logout';
 const AppRouter: FC = () => {
   const location = useLocation();
   const state = location.state as {
@@ -22,21 +30,24 @@ const AppRouter: FC = () => {
   return (
     <>
       <Routes location={state?.backgroundLocation || location}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/ingredients/:id" element={<IngredientPage />} />
-        <Route path="/profile" element={<OnlyAuth element={<ProfilePage />} />}>
+        <Route path={routeHome} element={<HomePage />} />
+        <Route path={routeIngredient(':id')} element={<IngredientPage />} />
+        <Route path={routeProfile} element={<OnlyAuth element={<ProfilePage />} />}>
           <Route index element={<UserForm />} />
         </Route>
-        <Route path="/login" element={<OnlyUnAuth element={<LoginPage />} />} />
-        <Route path="/register" element={<OnlyUnAuth element={<RegisterPage />} />} />
-        <Route path="/forgot-password" element={<OnlyUnAuth element={<ForgotPasswordPage />} />} />
-        <Route path="/reset-password" element={<OnlyUnAuth element={<ResetPasswordPage />} />} />
-        <Route path="/logout" element={<Logout />} />
+        <Route path={routeLogin} element={<OnlyUnAuth element={<LoginPage />} />} />
+        <Route path={routeRegister} element={<OnlyUnAuth element={<RegisterPage />} />} />
+        <Route
+          path={routeForgotPassword}
+          element={<OnlyUnAuth element={<ForgotPasswordPage />} />}
+        />
+        <Route path={routeResetPassword} element={<OnlyUnAuth element={<ResetPasswordPage />} />} />
+        <Route path={routeLogout} element={<Logout />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       {state?.backgroundLocation && (
         <Routes>
-          <Route path="/ingredients/:id" element={<IngredientModal />} />
+          <Route path={routeIngredient(':id')} element={<IngredientModal />} />
         </Routes>
       )}
     </>

@@ -1,14 +1,13 @@
 import { RefObject, useCallback, useMemo, useReducer, useRef } from 'react';
-import { Ref } from '../components/burger-ingredients/burger-ingredients-block/burger-ingredients-block';
 import { IngredientTypes } from '../models/ingridient';
 import { useIntersectionObserver } from './use-intersection-observer';
 
 export const useIngredientsTabsControl = () => {
   const rootRef = useRef(null);
-  const bunRef = useRef<Ref>(null);
-  const sauceRef = useRef<Ref>(null);
-  const mainRef = useRef<Ref>(null);
-  const listRefs = useMemo<Record<IngredientTypes, RefObject<Ref>>>(
+  const bunRef = useRef(null);
+  const sauceRef = useRef(null);
+  const mainRef = useRef(null);
+  const listRefs = useMemo<Record<IngredientTypes, RefObject<HTMLElement>>>(
     () => ({
       bun: bunRef,
       sauce: sauceRef,
@@ -21,7 +20,7 @@ export const useIngredientsTabsControl = () => {
       switch (action.type) {
         case 'scroll': {
           if (listRefs[action.payload].current) {
-            (listRefs[action.payload] as RefObject<Ref>).current?.scrollIntoView({
+            (listRefs[action.payload] as RefObject<HTMLElement>).current?.scrollIntoView({
               behavior: 'smooth',
             });
           }

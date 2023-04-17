@@ -1,13 +1,13 @@
 import { FC, useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import constructorStyles from './burger-constructor.module.scss';
-import { SORT_ITEMS, ConstructorState } from '../../services/reducers/constructor';
-import { RootState } from '../../store';
+import { SORT_ITEMS, selectConstructor } from '../../services/reducers/constructor';
 import ConstructorIngredientSortable from './constructor-ingredient-sortable';
+import { useRootSelector } from '../../hooks/use-root-selector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
 const IngredientsList: FC = () => {
-  const { ingredients } = useSelector<RootState, ConstructorState>((state) => state.builder);
-  const dispatch = useDispatch();
+  const { ingredients } = useRootSelector(selectConstructor);
+  const dispatch = useAppDispatch();
   const onMoveItem = useCallback(
     (from: number, to: number) => {
       dispatch(SORT_ITEMS({ from, to }));

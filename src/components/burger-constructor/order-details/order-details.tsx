@@ -1,10 +1,9 @@
 import { FC } from 'react';
 import { clsx } from 'clsx';
-import { useSelector } from 'react-redux';
 import doneImage from '../../../images/done.svg';
 import burgerConstructorStyle from './order-details.module.scss';
-import { RootState } from '../../../store';
-import { OrderState } from '../../../services/reducers/order';
+import { selectOrder } from '../../../services/reducers/order';
+import { useRootSelector } from '../../../hooks/use-root-selector';
 
 const textDefaultClasses = clsx('text text_type_main-default');
 
@@ -30,11 +29,8 @@ const inactiveTextClasses = clsx(
 );
 
 const OrderDetails: FC = () => {
-  const {
-    order: { order },
-  } = useSelector<RootState, { order: OrderState }>((state) => ({
-    order: state.order,
-  }));
+  const { order } = useRootSelector(selectOrder);
+
   return (
     order && (
       <div className={burgerConstructorStyle['order-details']}>

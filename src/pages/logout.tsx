@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../api/auth';
 import { AppDispatch } from '../store';
 import { SET, IS_USER_CHECKED } from '../services/reducers/user';
+import { routeLogin } from '../components/app-router/app-router';
 
 const Logout: FC = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const Logout: FC = () => {
     logout().then(() => {
       dispatch(SET({ user: null }));
       dispatch(IS_USER_CHECKED());
-      navigate('/login');
+      navigate(routeLogin);
     });
   }, []);
 

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { GET_INGREDIENTS } from '../actions/ingredients';
 import { Ingredient } from '../../models/ingridient';
+import { RootState } from '../../store';
 
 export interface IngredientsState {
   isLoading: boolean;
@@ -34,4 +35,9 @@ const ingredientsSlice = createSlice({
     });
   },
 });
+export const selectIngredient = (id: string) => (state: RootState) => ({
+  ingredient: state.ingredients.items.find((item) => item._id === id) || null,
+});
+export const selectIngredients = (state: RootState) => state.ingredients;
+
 export const ingredientsReducer = ingredientsSlice.reducer;

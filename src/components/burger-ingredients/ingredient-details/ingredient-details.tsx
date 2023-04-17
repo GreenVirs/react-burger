@@ -1,17 +1,14 @@
 import { FC } from 'react';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
 import IngredientAttributeList from './ingredient-attribute-list';
-import { Ingredient } from '../../../models/ingridient';
 import ingredientStyle from './ingredient-details.module.scss';
-import { RootState } from '../../../store';
+import { useRootSelector } from '../../../hooks/use-root-selector';
+import { selectIngredient } from '../../../services/reducers/ingredients';
 
 const IngredientDetails: FC = () => {
   const { id } = useParams();
-  const { ingredient } = useSelector<RootState, { ingredient: Ingredient | null }>((state) => {
-    const ingredients = state.ingredients.items;
-    return { ingredient: ingredients.find((item) => item._id === id) || null };
-  });
+  const { ingredient } = useRootSelector(selectIngredient(id as string));
+
   if (ingredient === null) {
     return null;
   }

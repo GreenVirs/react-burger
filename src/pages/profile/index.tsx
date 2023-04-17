@@ -3,19 +3,20 @@ import AppMain from '../../components/layout/app-main/app-main';
 import AppCenterContainer from '../../components/layout/app-center-container/app-center-container';
 import NavigationLink from '../../components/navigation-link/navigation-link';
 import styles from './profile.module.scss';
+import { routeProfile } from '../../components/app-router/app-router';
 
 const ProfilePage = () => (
   <AppMain>
     <AppCenterContainer>
       <div className={styles.profile}>
         <nav className={styles.profile__nav}>
-          <NavigationLink large to="/profile">
+          <NavigationLink large to={routeProfile}>
             Профиль
           </NavigationLink>
           <NavigationLink large to="/orders-history">
             История заказов
           </NavigationLink>
-          <NavigationLink large to="/logout">
+          <NavigationLink large to={routeProfile}>
             Выход
           </NavigationLink>
           <p className="pt-20 text text_type_main-default text_color_inactive">

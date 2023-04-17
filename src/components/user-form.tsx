@@ -5,22 +5,21 @@ import {
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
 import AppForm from './layout/app-form/app-form';
-import { AppDispatch, RootState } from '../store';
-import { SET, UserState } from '../services/reducers/user';
+import { selectUser, SET } from '../services/reducers/user';
 import { useForm } from '../hooks/use-form';
 import { IUser } from '../models/user';
 import { updateUser } from '../api/auth';
+import { useRootSelector } from '../hooks/use-root-selector';
+import { useAppDispatch } from '../hooks/use-app-dispatch';
 
 const UserForm: FC = () => {
-  const {
-    user: { user, isLoading },
-  } = useSelector<RootState, { user: UserState }>((state) => ({
-    user: state.user,
-  }));
-  const dispatch = useDispatch<AppDispatch>();
+  const { user, isLoading } = useRootSelector(selectUser);
+
+  const dispatch = useAppDispatch();
+
   const [state, onChange, patch] = useForm({ ...(user as IUser), password: '' });
+
   const stateEqual = useMemo(() => {
     if (state.password) {
       return false;

@@ -8,6 +8,7 @@ import AppForm from '../../components/layout/app-form/app-form';
 import AppFromDesc from '../../components/layout/app-form/app-from-desc';
 import AppFromLink from '../../components/layout/app-form/app-from-link';
 import { forgotPassport } from '../../api/auth';
+import { routeLogin, routeResetPassword } from '../../components/app-router/app-router';
 
 const ForgotPasswordPage: FC = () => {
   const [state, onChange] = useForm({ email: '' });
@@ -18,7 +19,7 @@ const ForgotPasswordPage: FC = () => {
       e.preventDefault();
       forgotPassport(state).then(({ success }) => {
         if (success) {
-          navigate('/reset-password', { state: { ...location.state, resetPass: true } });
+          navigate(routeResetPassword, { state: { ...location.state, resetPass: true } });
         }
       });
     },
@@ -40,7 +41,7 @@ const ForgotPasswordPage: FC = () => {
             actions: <Button htmlType="submit">Восстановить</Button>,
             links: (
               <AppFromDesc>
-                Вспомнили пароль? <AppFromLink to="/login">Войти</AppFromLink>
+                Вспомнили пароль? <AppFromLink to={routeLogin}>Войти</AppFromLink>
               </AppFromDesc>
             ),
           }}

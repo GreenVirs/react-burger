@@ -15,6 +15,11 @@ import AppFromLink from '../../components/layout/app-form/app-from-link';
 import { login } from '../../api/auth';
 import { IS_USER_CHECKED, SET } from '../../services/reducers/user';
 import { AppDispatch } from '../../store';
+import {
+  routeForgotPassword,
+  routeHome,
+  routeRegister,
+} from '../../components/app-router/app-router';
 
 const LoginPage: FC = () => {
   const [state, onChange] = useForm({ email: '', password: '' });
@@ -27,7 +32,7 @@ const LoginPage: FC = () => {
       login(state).then((user) => {
         dispatch(SET({ user }));
         dispatch(IS_USER_CHECKED());
-        const { from } = location.state || { from: { pathname: '/' } };
+        const { from } = location.state || { from: { pathname: routeHome } };
         navigate(from);
       });
     },
@@ -59,11 +64,11 @@ const LoginPage: FC = () => {
               <>
                 <AppFromDesc>
                   Вы — новый пользователь?{' '}
-                  <AppFromLink to="/register">Зарегистрироваться</AppFromLink>
+                  <AppFromLink to={routeRegister}>Зарегистрироваться</AppFromLink>
                 </AppFromDesc>
                 <AppFromDesc>
                   Забыли пароль?{' '}
-                  <AppFromLink to="/forgot-password">Восстановить пароль</AppFromLink>
+                  <AppFromLink to={routeForgotPassword}>Восстановить пароль</AppFromLink>
                 </AppFromDesc>
               </>
             ),

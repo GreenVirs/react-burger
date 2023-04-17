@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IOrder } from '../../models/order';
-import { ORDER, CREATE_ORDER } from '../actions/order';
+import { ORDER_ACTIONS_TYPE, CREATE_ORDER } from '../actions/order';
+import { RootState } from '../../store';
 
 export interface OrderState {
   order: IOrder | null;
@@ -18,7 +19,7 @@ export const orderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
-    [ORDER.CLEAR]: (state) => {
+    [ORDER_ACTIONS_TYPE.CLEAR]: (state) => {
       state.order = null;
       state.isOpenModal = false;
     },
@@ -41,5 +42,6 @@ export const orderSlice = createSlice({
   },
 });
 
+export const selectOrder = (state: RootState) => state.order;
 export const { CLEAR } = orderSlice.actions;
 export const orderReducer = orderSlice.reducer;

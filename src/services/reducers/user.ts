@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUser } from '../../models/user';
-import { USER, GET_USER } from '../actions/user';
+import { USER_ACTIONS_TYPE, GET_USER } from '../actions/user';
+import { RootState } from '../../store';
 
 export interface UserState {
   isLoading: boolean;
@@ -18,10 +19,10 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    [USER.IS_USER_CHECKED]: (state) => {
+    [USER_ACTIONS_TYPE.IS_USER_CHECKED]: (state) => {
       state.isUserChecked = true;
     },
-    [USER.SET]: (
+    [USER_ACTIONS_TYPE.SET]: (
       state,
       action: PayloadAction<{
         user: IUser | null;
@@ -48,6 +49,9 @@ const userSlice = createSlice({
     });
   },
 });
+
+export const selectUser = (state: RootState) => state.user;
+
 export const { IS_USER_CHECKED, SET } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

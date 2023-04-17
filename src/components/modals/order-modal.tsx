@@ -1,24 +1,20 @@
 import { FC, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../modal/modal';
 import OrderDetails from '../burger-constructor/order-details/order-details';
 import { CLEAR_ITEMS } from '../../services/reducers/constructor';
-import { CLEAR as CLEAR_ORDER, OrderState } from '../../services/reducers/order';
-import { AppDispatch, RootState } from '../../store';
+import { CLEAR as CLEAR_ORDER, selectOrder } from '../../services/reducers/order';
+import { useRootSelector } from '../../hooks/use-root-selector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
 const OrderModal: FC = () => {
-  const {
-    order: { isOpenModal: isOpenModalOrder },
-  } = useSelector<RootState, { order: OrderState }>((state) => ({
-    order: state.order,
-  }));
-  const dispatch = useDispatch<AppDispatch>();
+  const { isOpenModal } = useRootSelector(selectOrder);
+  const dispatch = useAppDispatch();
 
   const onCloseModalOrder = useCallback(() => {
     dispatch(CLEAR_ITEMS());
     dispatch(CLEAR_ORDER());
   }, [dispatch]);
-  return isOpenModalOrder ? (
+  return isOpenModal ? (
     <Modal onClose={onCloseModalOrder}>
       <OrderDetails />
     </Modal>

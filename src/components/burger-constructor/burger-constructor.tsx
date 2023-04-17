@@ -2,34 +2,28 @@ import { FC, useCallback, useMemo } from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
 import { v4 } from 'uuid';
-import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { useNavigate } from 'react-router';
 import IngredientsList from './ingredients-list';
 import ConstructorIngredient from './constructor-ingredient';
 import constructorStyles from './burger-constructor.module.scss';
 import PriceItem from '../price-item/price-item';
-import { AppDispatch, RootState } from '../../store';
-import { ConstructorState, ADD_ITEM } from '../../services/reducers/constructor';
+import { ADD_ITEM, selectConstructor } from '../../services/reducers/constructor';
 import { CREATE_ORDER } from '../../services/actions/order';
 import { Ingredient } from '../../models/ingridient';
-import { UserState } from '../../services/reducers/user';
+import { selectUser } from '../../services/reducers/user';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useRootSelector } from '../../hooks/use-root-selector';
+import { routeLogin } from '../app-router/app-router';
 
 const constructorClasses = clsx('pt-25 pb-4', constructorStyles.constructor);
 const resultClasses = clsx('mt-10', constructorStyles.result);
 
 const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {
-    bun,
-    ingredients,
-    user: { user },
-  } = useSelector<RootState, ConstructorState & { user: UserState }>((state) => ({
-    bun: state.builder.bun,
-    ingredients: state.builder.ingredients,
-    user: state.user,
-  }));
+  const { bun, ingredients } = useRootSelector(selectConstructor);
+  const { user } = useRootSelector(selectUser);
 
   const [, dropTargetRef] = useDrop({
     accept: 'add',
@@ -56,7 +50,7 @@ const BurgerConstructor: FC = () => {
 
   const onCreateOrder = useCallback(() => {
     if (!user) {
-      navigate('/login');
+      navigate(routeLogin);
       return;
     }
     const ingredientsList = [] as string[];

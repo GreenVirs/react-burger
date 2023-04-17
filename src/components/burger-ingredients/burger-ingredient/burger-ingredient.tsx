@@ -1,14 +1,14 @@
 import { FC, useMemo } from 'react';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router';
-import { ConstructorState } from '../../../services/reducers/constructor';
+import { selectConstructor } from '../../../services/reducers/constructor';
 import PriceItem from '../../price-item/price-item';
 import { Ingredient } from '../../../models/ingridient';
 import ingredientsStyle from './burger-ingredient.module.scss';
-import { RootState } from '../../../store';
+import { useRootSelector } from '../../../hooks/use-root-selector';
+import { routeIngredient } from '../../app-router/app-router';
 
 interface Props {
   ingredient: Ingredient;
@@ -23,9 +23,9 @@ const BurgerIngredient: FC<Props> = ({ ingredient }) => {
       isDrag: monitor.isDragging(),
     }),
   });
-  const { bun, ingredients } = useSelector<RootState, ConstructorState>((state) => ({
-    ...state.builder,
-  }));
+
+  const { bun, ingredients } = useRootSelector(selectConstructor);
+
   const count = useMemo<number | null>(() => {
     if (ingredient.type !== 'bun') {
       const itemsList = ingredients.filter((item) => item.ingredient._id === ingredient._id);
@@ -45,7 +45,7 @@ const BurgerIngredient: FC<Props> = ({ ingredient }) => {
       </span>
       <PriceItem price={ingredient.price} />
       <Link
-        to={`/ingredients/${ingredient._id}`}
+        to={routeIngredient(ingredient._id)}
         state={{ backgroundLocation: location }}
         className={ingredientsStyle['ingredient__btn-title']}
       >

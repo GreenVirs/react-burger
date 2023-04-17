@@ -5,7 +5,6 @@ import {
   Input,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 import AppMain from '../../components/layout/app-main/app-main';
 import { useForm } from '../../hooks/use-form';
@@ -15,11 +14,12 @@ import AppFromDesc from '../../components/layout/app-form/app-from-desc';
 import AppFromLink from '../../components/layout/app-form/app-from-link';
 import { register } from '../../api/auth';
 import { IS_USER_CHECKED, SET } from '../../services/reducers/user';
-import { AppDispatch } from '../../store';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { routeHome, routeLogin } from '../../components/app-router/app-router';
 
 const RegisterPage: FC = () => {
   const [state, onChange] = useForm({ name: '', email: '', password: '' });
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const onSubmit = useCallback(
@@ -28,7 +28,7 @@ const RegisterPage: FC = () => {
       register(state).then((user) => {
         dispatch(SET({ user }));
         dispatch(IS_USER_CHECKED());
-        const { from } = location.state || { from: { pathname: '/' } };
+        const { from } = location.state || { from: { pathname: routeHome } };
         navigate(from);
       });
     },
@@ -63,7 +63,7 @@ const RegisterPage: FC = () => {
             ),
             links: (
               <AppFromDesc>
-                Уже зарегистрированы? <AppFromLink to="/login">Войти</AppFromLink>
+                Уже зарегистрированы? <AppFromLink to={routeLogin}>Войти</AppFromLink>
               </AppFromDesc>
             ),
           }}

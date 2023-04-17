@@ -8,6 +8,7 @@ import AppForm from '../../components/layout/app-form/app-form';
 import AppFromDesc from '../../components/layout/app-form/app-from-desc';
 import AppFromLink from '../../components/layout/app-form/app-from-link';
 import { resetPassport } from '../../api/auth';
+import { routeLogin } from '../../components/app-router/app-router';
 
 const ResetPasswordPage: FC = () => {
   const [state, dispatch] = useForm({ password: '', token: '' });
@@ -18,7 +19,7 @@ const ResetPasswordPage: FC = () => {
       e.preventDefault();
       resetPassport(state).then(({ success }) => {
         if (success) {
-          navigate('/login', { state: { ...location.state } });
+          navigate(routeLogin, { state: { ...location.state } });
         }
       });
     },
@@ -26,7 +27,7 @@ const ResetPasswordPage: FC = () => {
   );
 
   if (!location.state?.resetPass) {
-    return <Navigate to="/login" />;
+    return <Navigate to={routeLogin} />;
   }
 
   return (
@@ -57,7 +58,7 @@ const ResetPasswordPage: FC = () => {
             ),
             links: (
               <AppFromDesc>
-                Вспомнили пароль? <AppFromLink to="/login">Войти</AppFromLink>
+                Вспомнили пароль? <AppFromLink to={routeLogin}>Войти</AppFromLink>
               </AppFromDesc>
             ),
           }}

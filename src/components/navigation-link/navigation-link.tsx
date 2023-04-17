@@ -1,37 +1,43 @@
-import { useMemo, FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, useMemo } from 'react';
 import { TIconProps } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils';
-import linkStyles from './navigation-link.module.css';
+import { clsx } from 'clsx';
+import { NavLink, LinkProps } from 'react-router-dom';
+import linkStyles from './navigation-link.module.scss';
 
-type Props = PropsWithChildren<{
-  active?: boolean;
-  href: string;
-  icon?: FC<TIconProps>;
-}>;
+type Props = PropsWithChildren<
+  LinkProps & {
+    icon?: FC<TIconProps>;
+    large?: boolean;
+  }
+>;
 
-const NavigationLink: FC<Props> = ({ href, active, icon: Icon, children }) => {
-  const iconType = useMemo(() => (active ? 'primary' : 'secondary'), [active]);
-  const textColor = useMemo(() => (active ? 'primary' : 'inactive'), [active]);
-
-  return (
-    <a
-      className={`pr-5 pl-5 text text_type_main-default ${`text_color_${textColor}`} ${
-        linkStyles.link
-      }`}
-      href={href}
-    >
+const NavigationLink: FC<Props> = ({ icon: Icon, children, large, ...linkProps }) => {
+  const linkSize = useMemo(
+    () => (large ? linkStyles['link--large'] : linkStyles['link--small']),
+    [large]
+  );
+  const setClasses = (isActive: boolean) =>
+    clsx(`text_color_${isActive ? 'primary' : 'inactive'}`, linkStyles.link, linkSize);
+  const setChildren = (isActive: boolean) => (
+    <>
       {Icon && (
         <span className="ml-2">
-          <Icon type={iconType} />
+          <Icon type={isActive ? 'primary' : 'secondary'} />
         </span>
       )}
       {children}
-    </a>
+    </>
+  );
+  return (
+    <NavLink className={({ isActive }) => setClasses(isActive)} {...linkProps}>
+      {({ isActive }) => setChildren(isActive)}
+    </NavLink>
   );
 };
 
 NavigationLink.defaultProps = {
-  active: false,
   icon: undefined,
+  large: false,
 };
 
 export default NavigationLink;

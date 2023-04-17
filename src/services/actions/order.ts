@@ -1,14 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Order } from '../../models/order';
-import { ordersApi } from '../../api';
+import { IOrder } from '../../models/order';
+import { createOrder } from '../../api/orders';
+import { ApiReturned } from '../../api/common';
 
 export enum ORDER {
   CLEAR = 'CLEAR',
 }
 
-type ApiReturned = Order & { success: boolean };
-
-export const CREATE_ORDER = createAsyncThunk<ApiReturned, { ingredients: string[] }>(
+export const CREATE_ORDER = createAsyncThunk<ApiReturned<IOrder>, { ingredients: string[] }>(
   'CREATE_ORDER',
-  (data) => ordersApi.post<ApiReturned>(data)
+  (data) => createOrder(data)
 );

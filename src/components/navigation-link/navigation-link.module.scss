@@ -5,6 +5,15 @@
     grid-auto-flow: column dense;
     grid-gap: calc(var(--offset-base-size) * 2);
     text-decoration: none;
+
+    &--small {
+        composes: pr-5 pl-5 text text_type_main-default from global;
+    }
+
+    &--large {
+        composes: pr-5 pl-5 text text_type_main-medium from global;
+        height: 64px;
+    }
 }
 
 .link--primary {

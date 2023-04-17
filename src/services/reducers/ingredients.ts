@@ -4,11 +4,13 @@ import { Ingredient } from '../../models/ingridient';
 
 export interface IngredientsState {
   isLoading: boolean;
+  isItemsLoaded: boolean;
   items: Ingredient[];
 }
 
 export const initialState: IngredientsState = {
   isLoading: false,
+  isItemsLoaded: false,
   items: [],
 };
 
@@ -23,6 +25,7 @@ const ingredientsSlice = createSlice({
     builder.addCase(GET_INGREDIENTS.fulfilled, (state, { payload }) => {
       if (payload.success) {
         state.items = payload.data;
+        state.isItemsLoaded = true;
       }
       state.isLoading = false;
     });

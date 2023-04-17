@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Order } from '../../models/order';
+import { IOrder } from '../../models/order';
 import { ORDER, CREATE_ORDER } from '../actions/order';
 
 export interface OrderState {
-  order: Order | null;
+  order: IOrder | null;
   isLoading: boolean;
   isOpenModal: boolean;
 }
@@ -30,7 +30,7 @@ export const orderSlice = createSlice({
     builder.addCase(CREATE_ORDER.fulfilled, (state, action) => {
       const { success, ...order } = action.payload;
       if (success) {
-        state.order = order;
+        state.order = order as IOrder;
         state.isOpenModal = true;
       }
       state.isLoading = false;

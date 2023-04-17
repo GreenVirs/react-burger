@@ -8,7 +8,7 @@ import IngredientsList from './ingredients-list';
 import ConstructorIngredient from './constructor-ingredient';
 import constructorStyles from './burger-constructor.module.scss';
 import PriceItem from '../price-item/price-item';
-import { Order } from '../../models/order';
+import { IOrder } from '../../models/order';
 import { AppDispatch, RootState } from '../../store';
 import { ConstructorState, ADD_ITEM } from '../../services/reducers/constructor';
 import { CREATE_ORDER } from '../../services/actions/order';
@@ -19,7 +19,7 @@ const resultClasses = clsx('mt-10', constructorStyles.result);
 
 const BurgerConstructor: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { bun, ingredients } = useSelector<RootState, ConstructorState & { order: Order | null }>(
+  const { bun, ingredients } = useSelector<RootState, ConstructorState & { order: IOrder | null }>(
     (state) => ({
       bun: state.builder.bun,
       ingredients: state.builder.ingredients,
@@ -44,7 +44,7 @@ const BurgerConstructor: FC = () => {
     }, 0);
 
     if (bun !== null) {
-      return totalIngredients + bun.price;
+      return totalIngredients + bun.price * 2;
     }
 
     return totalIngredients;

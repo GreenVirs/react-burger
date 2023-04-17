@@ -9,17 +9,17 @@ import { clsx } from 'clsx';
 import NavigationLink from '../navigation-link/navigation-link';
 
 import headerStyles from './app-header.module.scss';
-import containerStyles from '../app-container/app-container.module.scss';
+import containerStyles from '../layout/app-container/app-container.module.scss';
 
 const headerClasses = clsx(headerStyles.header, containerStyles.container);
 
 const AppHeader: FC = () => (
   <header className={headerClasses}>
     <nav className={headerStyles.header__nav}>
-      <NavigationLink icon={BurgerIcon} href="#" active>
+      <NavigationLink icon={BurgerIcon} to="/">
         Конструктор
       </NavigationLink>
-      <NavigationLink icon={ListIcon} href="#">
+      <NavigationLink icon={ListIcon} to="#">
         Лента заказов
       </NavigationLink>
     </nav>
@@ -27,7 +27,7 @@ const AppHeader: FC = () => (
       <Logo />
     </span>
     <span className={headerStyles.header__actions}>
-      <NavigationLink icon={ProfileIcon} href="#">
+      <NavigationLink icon={ProfileIcon} to="/profile">
         Личный кабинет
       </NavigationLink>
     </span>

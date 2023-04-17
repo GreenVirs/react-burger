@@ -57,8 +57,13 @@ const UserForm: FC = () => {
     },
     [state, dispatch, user, patch]
   );
+
+  const onReset = () => {
+    patch({ ...user, password: '' });
+  };
+
   return (
-    <AppForm onSubmit={onSubmit}>
+    <AppForm onSubmit={onSubmit} orderActions="right">
       {{
         default: (
           <>
@@ -73,9 +78,14 @@ const UserForm: FC = () => {
           </>
         ),
         actions: (
-          <Button htmlType="submit" disabled={stateEqual}>
-            Сохранить
-          </Button>
+          <>
+            <Button htmlType="reset" type="secondary" disabled={stateEqual} onClick={onReset}>
+              Отмена
+            </Button>
+            <Button htmlType="submit" disabled={stateEqual}>
+              Сохранить
+            </Button>
+          </>
         ),
       }}
     </AppForm>

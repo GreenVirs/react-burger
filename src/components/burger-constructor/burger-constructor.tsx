@@ -4,28 +4,32 @@ import { clsx } from 'clsx';
 import { v4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
+import { useNavigate } from 'react-router';
 import IngredientsList from './ingredients-list';
 import ConstructorIngredient from './constructor-ingredient';
 import constructorStyles from './burger-constructor.module.scss';
 import PriceItem from '../price-item/price-item';
-import { IOrder } from '../../models/order';
 import { AppDispatch, RootState } from '../../store';
 import { ConstructorState, ADD_ITEM } from '../../services/reducers/constructor';
 import { CREATE_ORDER } from '../../services/actions/order';
 import { Ingredient } from '../../models/ingridient';
+import { UserState } from '../../services/reducers/user';
 
 const constructorClasses = clsx('pt-25 pb-4', constructorStyles.constructor);
 const resultClasses = clsx('mt-10', constructorStyles.result);
 
 const BurgerConstructor: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { bun, ingredients } = useSelector<RootState, ConstructorState & { order: IOrder | null }>(
-    (state) => ({
-      bun: state.builder.bun,
-      ingredients: state.builder.ingredients,
-      order: state.order.order,
-    })
-  );
+  const navigate = useNavigate();
+  const {
+    bun,
+    ingredients,
+    user: { user },
+  } = useSelector<RootState, ConstructorState & { user: UserState }>((state) => ({
+    bun: state.builder.bun,
+    ingredients: state.builder.ingredients,
+    user: state.user,
+  }));
 
   const [, dropTargetRef] = useDrop({
     accept: 'add',
@@ -51,6 +55,10 @@ const BurgerConstructor: FC = () => {
   }, [ingredients, bun]);
 
   const onCreateOrder = useCallback(() => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
     const ingredientsList = [] as string[];
     if (bun !== null) {
       ingredientsList.push(bun._id);

@@ -59,11 +59,11 @@ const LoginPage: FC = () => {
               <>
                 <AppFromDesc>
                   Вы — новый пользователь?{' '}
-                  <AppFromLink to="/auth/register">Зарегистрироваться</AppFromLink>
+                  <AppFromLink to="/register">Зарегистрироваться</AppFromLink>
                 </AppFromDesc>
                 <AppFromDesc>
                   Забыли пароль?{' '}
-                  <AppFromLink to="/auth/forgot-password">Восстановить пароль</AppFromLink>
+                  <AppFromLink to="/forgot-password">Восстановить пароль</AppFromLink>
                 </AppFromDesc>
               </>
             ),

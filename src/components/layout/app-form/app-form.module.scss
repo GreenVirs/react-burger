@@ -15,8 +15,19 @@
   &__actions {
     composes: text text_type_main-large mt-6 from global;
     display: flex;
-    justify-content: center;
     gap: calc(var(--offset-base-size) * 3);
+
+    &--left {
+      justify-content: flex-start;
+    }
+
+    &--center {
+      justify-content: center;
+    }
+
+    &--right {
+      justify-content: flex-end;
+    }
   }
 
   &__links {

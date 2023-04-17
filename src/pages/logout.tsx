@@ -12,7 +12,7 @@ const Logout: FC = () => {
     logout().then(() => {
       dispatch(SET({ user: null }));
       dispatch(IS_USER_CHECKED());
-      navigate('/auth/login');
+      navigate('/login');
     });
   }, []);
 

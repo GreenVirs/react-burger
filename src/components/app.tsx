@@ -33,7 +33,7 @@ function App() {
       dispatch(GET_USER())
         .catch(() => {
           clearToken();
-          navigate('/auth/login');
+          navigate('/login');
         })
         .finally(() => {
           dispatch(IS_USER_CHECKED());

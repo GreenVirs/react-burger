@@ -27,12 +27,10 @@ const AppRouter: FC = () => {
         <Route path="/profile" element={<OnlyAuth element={<ProfilePage />} />}>
           <Route index element={<UserForm />} />
         </Route>
-        <Route path="/auth">
-          <Route path="login" element={<OnlyUnAuth element={<LoginPage />} />} />
-          <Route path="register" element={<OnlyUnAuth element={<RegisterPage />} />} />
-          <Route path="forgot-password" element={<OnlyUnAuth element={<ForgotPasswordPage />} />} />
-          <Route path="reset-password" element={<OnlyUnAuth element={<ResetPasswordPage />} />} />
-        </Route>
+        <Route path="/login" element={<OnlyUnAuth element={<LoginPage />} />} />
+        <Route path="/register" element={<OnlyUnAuth element={<RegisterPage />} />} />
+        <Route path="/forgot-password" element={<OnlyUnAuth element={<ForgotPasswordPage />} />} />
+        <Route path="/reset-password" element={<OnlyUnAuth element={<ResetPasswordPage />} />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>

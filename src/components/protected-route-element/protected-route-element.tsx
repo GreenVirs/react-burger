@@ -26,7 +26,7 @@ const ProtectedRouteElement: FC<IProtectedRouteElement> = ({ element, onlyUnAuth
   }
 
   if (!onlyUnAuth && !user) {
-    return <Navigate to="/auth/login" state={{ from: location }} />;
+    return <Navigate to="/login" state={{ from: location }} />;
   }
 
   return element;

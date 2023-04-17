@@ -63,7 +63,7 @@ const RegisterPage: FC = () => {
             ),
             links: (
               <AppFromDesc>
-                Уже зарегистрированы? <AppFromLink to="/auth/login">Войти</AppFromLink>
+                Уже зарегистрированы? <AppFromLink to="/login">Войти</AppFromLink>
               </AppFromDesc>
             ),
           }}

@@ -26,7 +26,7 @@ const ResetPasswordPage: FC = () => {
   );
 
   if (!location.state?.resetPass) {
-    return <Navigate to="/auth/login" />;
+    return <Navigate to="/login" />;
   }
 
   return (
@@ -57,7 +57,7 @@ const ResetPasswordPage: FC = () => {
             ),
             links: (
               <AppFromDesc>
-                Вспомнили пароль? <AppFromLink to="/auth/login">Войти</AppFromLink>
+                Вспомнили пароль? <AppFromLink to="/login">Войти</AppFromLink>
               </AppFromDesc>
             ),
           }}

@@ -18,7 +18,7 @@ const ForgotPasswordPage: FC = () => {
       e.preventDefault();
       forgotPassport(state).then(({ success }) => {
         if (success) {
-          navigate('/auth/reset-password', { state: { ...location.state, resetPass: true } });
+          navigate('/reset-password', { state: { ...location.state, resetPass: true } });
         }
       });
     },
@@ -40,7 +40,7 @@ const ForgotPasswordPage: FC = () => {
             actions: <Button htmlType="submit">Восстановить</Button>,
             links: (
               <AppFromDesc>
-                Вспомнили пароль? <AppFromLink to="/auth/login">Войти</AppFromLink>
+                Вспомнили пароль? <AppFromLink to="/login">Войти</AppFromLink>
               </AppFromDesc>
             ),
           }}

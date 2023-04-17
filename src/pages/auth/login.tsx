@@ -4,7 +4,6 @@ import {
   PasswordInput,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 import AppMain from '../../components/layout/app-main/app-main';
 import { useForm } from '../../hooks/use-form';
@@ -14,16 +13,16 @@ import AppFromDesc from '../../components/layout/app-form/app-from-desc';
 import AppFromLink from '../../components/layout/app-form/app-from-link';
 import { login } from '../../api/auth';
 import { IS_USER_CHECKED, SET } from '../../services/reducers/user';
-import { AppDispatch } from '../../store';
 import {
   routeForgotPassword,
   routeHome,
   routeRegister,
 } from '../../components/app-router/app-router';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
 const LoginPage: FC = () => {
   const [state, onChange] = useForm({ email: '', password: '' });
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const onSubmit = useCallback(

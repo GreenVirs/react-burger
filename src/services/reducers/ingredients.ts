@@ -25,7 +25,9 @@ const ingredientsSlice = createSlice({
     });
     builder.addCase(GET_INGREDIENTS.fulfilled, (state, { payload }) => {
       if (payload.success) {
-        state.items = payload.data;
+        if (Array.isArray(payload.data)) {
+          state.items = payload.data;
+        }
         state.isItemsLoaded = true;
       }
       state.isLoading = false;

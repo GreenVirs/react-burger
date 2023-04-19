@@ -2,6 +2,7 @@ import { v4 } from 'uuid';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Ingredient } from '../../models/ingridient';
 import { CONSTRUCTOR_ACTIONS_TYPE } from '../actions/constructor';
+import { RootState } from '../../store';
 
 export interface ConstructorState {
   bun: Ingredient | null;
@@ -60,5 +61,7 @@ const constructorSlice = createSlice({
     },
   },
 });
+
+export const selectConstructor = (state: RootState) => state.builder;
 export const { CLEAR_ITEMS, ADD_ITEM, REMOVE_ITEM, SORT_ITEMS } = constructorSlice.actions;
 export const constructorReducer = constructorSlice.reducer;

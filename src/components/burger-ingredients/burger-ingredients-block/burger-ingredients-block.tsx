@@ -9,19 +9,19 @@ type Props = {
   items: Ingredient[];
 };
 
-export type Ref<T extends HTMLElement = HTMLHeadingElement> = T;
-
-const BurgerIngredientsBlock = forwardRef<Ref, Props>(({ items, id, title }, ref) => (
-  <div>
-    <h2 ref={ref} id={id} className="text text_type_main-medium">
-      {title}
-    </h2>
-    <ul className={ingredientsStyle.ingredients__list}>
-      {items.map((item) => (
-        <BurgerIngredient key={item._id} ingredient={item} />
-      ))}
-    </ul>
-  </div>
-));
+const BurgerIngredientsBlock = forwardRef<HTMLHeadingElement, Props>(
+  ({ items, id, title }, ref) => (
+    <div>
+      <h2 ref={ref} id={id} className="text text_type_main-medium">
+        {title}
+      </h2>
+      <ul className={ingredientsStyle.ingredients__list}>
+        {items.map((item) => (
+          <BurgerIngredient key={item._id} ingredient={item} />
+        ))}
+      </ul>
+    </div>
+  )
+);
 
 export default BurgerIngredientsBlock;

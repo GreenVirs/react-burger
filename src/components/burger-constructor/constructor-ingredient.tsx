@@ -1,10 +1,10 @@
 import { useCallback, useMemo, forwardRef } from 'react';
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
-import { useDispatch } from 'react-redux';
 import { Ingredient } from '../../models/ingridient';
 import constructorStyles from './burger-constructor.module.scss';
 import { REMOVE_ITEM } from '../../services/reducers/constructor';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
 export type ConstructorIngredientProps = {
   ingredient: Ingredient;
@@ -19,7 +19,7 @@ type Ref<T extends HTMLElement = HTMLElement> = T;
 
 const ConstructorIngredient = forwardRef<Ref<HTMLDivElement>, ConstructorIngredientProps>(
   ({ first, last, ingredient, extraClass, id, opacity }, ref) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const wrapperClasses = useMemo(
       () => clsx(constructorStyles.item__wrapper, extraClass),
       [extraClass]

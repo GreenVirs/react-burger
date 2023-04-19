@@ -1,14 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { GET_INGREDIENTS } from '../actions/ingredients';
 import { Ingredient } from '../../models/ingridient';
+import { RootState } from '../../store';
 
 export interface IngredientsState {
   isLoading: boolean;
+  isItemsLoaded: boolean;
   items: Ingredient[];
 }
 
 export const initialState: IngredientsState = {
   isLoading: false,
+  isItemsLoaded: false,
   items: [],
 };
 
@@ -22,7 +25,10 @@ const ingredientsSlice = createSlice({
     });
     builder.addCase(GET_INGREDIENTS.fulfilled, (state, { payload }) => {
       if (payload.success) {
-        state.items = payload.data;
+        if (Array.isArray(payload.data)) {
+          state.items = payload.data;
+        }
+        state.isItemsLoaded = true;
       }
       state.isLoading = false;
     });
@@ -31,4 +37,9 @@ const ingredientsSlice = createSlice({
     });
   },
 });
+export const selectIngredient = (id: string) => (state: RootState) => ({
+  ingredient: state.ingredients.items.find((item) => item._id === id) || null,
+});
+export const selectIngredients = (state: RootState) => state.ingredients;
+
 export const ingredientsReducer = ingredientsSlice.reducer;

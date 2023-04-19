@@ -1,9 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ingredientsApi } from '../../api';
-import { Ingredient } from '../../models/ingridient';
+import { getIngredients } from '../../api/ingredients';
 
-type ApiReturned = { success: boolean; data: Ingredient[] };
-
-export const GET_INGREDIENTS = createAsyncThunk<ApiReturned>('GET_INGREDIENTS', () =>
-  ingredientsApi.get<ApiReturned>()
-);
+export enum INGREDIENTS_ACTIONS_TYPE {
+  GET = 'GET',
+}
+export const GET_INGREDIENTS = createAsyncThunk(INGREDIENTS_ACTIONS_TYPE.GET, getIngredients);

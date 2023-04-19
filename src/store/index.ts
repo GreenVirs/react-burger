@@ -3,7 +3,7 @@ import { rootReducer } from '../services/reducers';
 import { initialState as initialStateOrder } from '../services/reducers/order';
 import { initialState as initialStateIngredients } from '../services/reducers/ingredients';
 import { initialState as initialStateConstructor } from '../services/reducers/constructor';
-import { initialState as initialStateCurrentIngredient } from '../services/reducers/current-ingredient';
+import { initialState as initialStateUser } from '../services/reducers/user';
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -11,7 +11,7 @@ export const store = configureStore({
     ingredients: initialStateIngredients,
     builder: initialStateConstructor,
     order: initialStateOrder,
-    currentIngredient: initialStateCurrentIngredient,
+    user: initialStateUser,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -22,5 +22,5 @@ export const store = configureStore({
   devTools: process.env.NODE_ENV === 'development',
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useParams } from 'react-router';
 import IngredientAttributeList from './ingredient-attribute-list';
 import ingredientStyle from './ingredient-details.module.scss';
@@ -7,7 +7,8 @@ import { selectIngredient } from '../../../services/reducers/ingredients';
 
 const IngredientDetails: FC = () => {
   const { id } = useParams();
-  const { ingredient } = useRootSelector(selectIngredient(id as string));
+  const getIngredient = useMemo(() => selectIngredient(id as string), [id]);
+  const { ingredient } = useRootSelector(getIngredient);
 
   if (ingredient === null) {
     return null;

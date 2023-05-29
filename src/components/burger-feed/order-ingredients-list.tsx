@@ -1,5 +1,4 @@
 import { CSSProperties, FC } from 'react';
-import { v4 } from 'uuid';
 import { Ingredient } from '../../models/ingridient';
 import AppAvatar from '../app-avatar/app-avatar';
 import styles from './orders-list.module.scss';
@@ -15,7 +14,7 @@ const OrderIngredientsList: FC<Props> = ({ ingredients }) => {
           <AppAvatar
             style={{ '--z-index-count': ingredients.length - index } as CSSProperties}
             className={styles['orders-ingredients-list__item']}
-            key={v4()}
+            key={index}
             src={item.image}
             alt={item.name}
           />
@@ -33,7 +32,7 @@ const OrderIngredientsList: FC<Props> = ({ ingredients }) => {
         <AppAvatar
           style={{ '--z-index-count': tempIngredients.length - index } as CSSProperties}
           className={styles['orders-ingredients-list__item']}
-          key={v4()}
+          key={index}
           src={item.image}
           alt={item.name}
         />

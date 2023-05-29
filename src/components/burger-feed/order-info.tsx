@@ -70,8 +70,8 @@ const OrderInfo: FC = () => {
         </div>
         <div className="mt-15 text text_type_main-medium">Состав:</div>
         <div className={clsx('mt-6 custom-scroll', styles['order-info__list'])}>
-          {calculateIngredients.map(({ item: ingredient, count }) => (
-            <div className={styles['order-info__item']}>
+          {calculateIngredients.map(({ item: ingredient, count }, index) => (
+            <div key={index} className={styles['order-info__item']}>
               <AppAvatar src={ingredient.image} />
               <span className="text text_type_main-default">{ingredient.name}</span>
               <div>

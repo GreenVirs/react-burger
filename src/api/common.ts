@@ -66,3 +66,23 @@ export const remove = <T>(entrypoint: string, options?: RequestInit): Promise<Ap
 
   return fetchWithRefresh<ApiReturned<T>>(`${BASE_URL}/${entrypoint}`, opt);
 };
+
+export interface SocketOptions {
+  onMessage: (event: MessageEvent<string>) => void;
+  onError?: (event: Event) => void;
+  onOpen?: (event: Event) => void;
+  onClose?: (event: Event) => void;
+  protocols?: string | string[];
+}
+export const tunnel = (
+  url: string | URL,
+  { protocols, onMessage, onError, onClose, onOpen }: SocketOptions
+) => {
+  const socket = new WebSocket(url, protocols);
+  socket.addEventListener('message', onMessage);
+  onOpen && socket.addEventListener('open', onOpen);
+  onError && socket.addEventListener('error', onError);
+  onClose && socket.addEventListener('close', onClose);
+
+  return socket;
+};

@@ -3,7 +3,7 @@ import AppMain from '../../components/layout/app-main/app-main';
 import AppCenterContainer from '../../components/layout/app-center-container/app-center-container';
 import NavigationLink from '../../components/navigation-link/navigation-link';
 import styles from './profile.module.scss';
-import { routeLogout, routeProfile } from '../../components/app-router/app-router';
+import { routeLogout, routeMyOrders, routeProfile } from '../../components/app-router/app-router';
 
 const ProfilePage = () => (
   <AppMain>
@@ -13,7 +13,7 @@ const ProfilePage = () => (
           <NavigationLink large to={routeProfile}>
             Профиль
           </NavigationLink>
-          <NavigationLink large to="/orders-history">
+          <NavigationLink large to={`${routeProfile}/${routeMyOrders}`}>
             История заказов
           </NavigationLink>
           <NavigationLink large to={routeLogout}>

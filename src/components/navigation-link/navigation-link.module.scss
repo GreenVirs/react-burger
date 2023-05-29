@@ -6,6 +6,12 @@
     grid-gap: calc(var(--offset-base-size) * 2);
     text-decoration: none;
 
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     &--small {
         composes: pr-5 pl-5 text text_type_main-default from global;
     }

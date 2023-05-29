@@ -10,7 +10,7 @@ import NavigationLink from '../navigation-link/navigation-link';
 
 import headerStyles from './app-header.module.scss';
 import containerStyles from '../layout/app-container/app-container.module.scss';
-import { routeHome, routeProfile } from '../app-router/app-router';
+import { routeFeed, routeHome, routeProfile } from '../app-router/app-router';
 
 const headerClasses = clsx(headerStyles.header, containerStyles.container);
 
@@ -20,7 +20,7 @@ const AppHeader: FC = () => (
       <NavigationLink icon={BurgerIcon} to={routeHome}>
         Конструктор
       </NavigationLink>
-      <NavigationLink icon={ListIcon} to="#">
+      <NavigationLink icon={ListIcon} to={routeFeed}>
         Лента заказов
       </NavigationLink>
     </nav>

@@ -28,6 +28,15 @@ export const clearToken = (): string => {
   headers.delete('authorization');
   return refresh;
 };
+
+export const getToken = (): string => {
+  const fullToken = localStorage.getItem('accessToken');
+  if (fullToken === null) {
+    return '';
+  }
+
+  return fullToken.split(' ')[1];
+};
 const parseHeaders = (hdrs: HeadersInit) =>
   checkConstructor(hdrs, Headers) ? Object.fromEntries(Array.from(hdrs as Headers)) : { ...hdrs };
 

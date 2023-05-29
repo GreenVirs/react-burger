@@ -12,6 +12,12 @@ html, body {
   display: flex;
   flex-direction: column;
 }
+
+img {
+  display: inline-block;
+  width: 100%;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

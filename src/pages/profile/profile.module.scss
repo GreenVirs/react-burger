@@ -1,0 +1,11 @@
+.profile {
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  gap: calc(var(--offset-base-size) * 15);
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

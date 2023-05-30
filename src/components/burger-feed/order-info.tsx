@@ -1,15 +1,17 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
-import { Order } from '../../models/order';
-import { getOrder } from '../../api/orders';
 import { useOrderIngredients } from '../../hooks/use-order-ingredients';
 import { useOrderPrice } from '../../hooks/use-order-price';
 import PriceItem from '../price-item/price-item';
 import { Ingredient } from '../../models/ingridient';
 import AppAvatar from '../app-avatar/app-avatar';
 import styles from './order-info.module.scss';
+import { useRootSelector } from '../../hooks/use-root-selector';
+import { selectOrder, CLEAR_ORDER } from '../../services/reducers/order';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { GET_ORDER } from '../../services/actions/order';
 
 const statuses = {
   done: { name: 'Выполнен', className: 'text_color_success' },
@@ -18,24 +20,17 @@ const statuses = {
   cancel: { name: 'Отменен', className: 'text_color_error' },
 };
 const OrderInfo: FC = () => {
-  const [order, setOrder] = useState<Order | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, order } = useRootSelector(selectOrder);
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   useEffect(() => {
-    setIsLoading(true);
-    getOrder(id as string)
-      .then(({ success, ...data }) => {
-        if (success) {
-          setOrder((data as { orders: Order[] }).orders[0]);
-        }
-      })
-      .catch((e) => console.log('error', e))
-      .finally(() => {
-        setIsLoading(false);
-      });
+    dispatch(GET_ORDER(id as string));
+    return () => {
+      dispatch(CLEAR_ORDER());
+    };
   }, []);
 
-  const ingredientsIds = order?.ingredients || [];
+  const ingredientsIds = order?.order.ingredients || [];
   const ingredients = useOrderIngredients(ingredientsIds);
   const calculateIngredients = useMemo(
     () =>
@@ -60,13 +55,16 @@ const OrderInfo: FC = () => {
     order && (
       <div className={styles['order-info']}>
         <div className={clsx(styles['order-info__number'], 'text text_type_digits-default')}>
-          #{order.number}
+          #{order.order.number}
         </div>
         <div className="mt-10 text text_type_main-medium">{order.name}</div>
         <div
-          className={clsx('mt-3 text text_type_main-default', statuses[order.status]?.className)}
+          className={clsx(
+            'mt-3 text text_type_main-default',
+            statuses[order.order.status]?.className
+          )}
         >
-          {statuses[order.status]?.name}
+          {statuses[order.order.status]?.name}
         </div>
         <div className="mt-15 text text_type_main-medium">Состав:</div>
         <div className={clsx('mt-6 custom-scroll', styles['order-info__list'])}>
@@ -85,7 +83,7 @@ const OrderInfo: FC = () => {
         </div>
         <div className={clsx(styles['order-info__footer'], 'mt-10')}>
           <FormattedDate
-            date={new Date(order.createdAt)}
+            date={new Date(order.order.createdAt)}
             className="text text_type_main-default text_color_inactive"
           />
           <PriceItem price={price} />

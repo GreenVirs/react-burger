@@ -1,6 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from '../services/reducers';
-import { initialState as initialStateOrder } from '../services/reducers/order';
+import {
+  initialState as initialStateOrder,
+  WS_ALL_CLOSE,
+  WS_ALL_CONNECT,
+  WS_ME_CLOSE,
+  WS_ME_CONNECT,
+} from '../services/reducers/order';
 import { initialState as initialStateIngredients } from '../services/reducers/ingredients';
 import { initialState as initialStateConstructor } from '../services/reducers/constructor';
 import { initialState as initialStateUser } from '../services/reducers/user';
@@ -19,7 +25,10 @@ export const store = configureStore({
       thunk: true,
       immutableCheck: false,
       serializableCheck: false,
-    }).concat(socketMiddleware),
+    }).concat(
+      socketMiddleware({ init: WS_ALL_CONNECT, close: WS_ALL_CLOSE }),
+      socketMiddleware({ init: WS_ME_CONNECT, close: WS_ME_CLOSE })
+    ),
   devTools: process.env.NODE_ENV === 'development',
 });
 

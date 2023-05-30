@@ -1,18 +1,31 @@
 import { FC, useEffect } from 'react';
-import { ORDER_ACTIONS_TYPE } from '../../services/actions/order';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import AppMain from '../../components/layout/app-main/app-main';
 import styles from '../../components/burger-sandbox/burger-sandbox.module.css';
 import OrdersList from '../../components/burger-feed/orders-list';
 import OrdersCount from '../../components/burger-feed/orders-count';
+import {
+  WS_ALL_CONNECT,
+  WS_ALL_MESSAGE,
+  WS_ALL_OPEN,
+  WS_ALL_CLOSE,
+} from '../../services/reducers/order';
 
 const FeedPage: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch({ type: ORDER_ACTIONS_TYPE.WS_ALL_CONNECT });
+    dispatch(
+      WS_ALL_CONNECT({
+        url: 'orders/all',
+        options: {
+          onOpen: () => dispatch(WS_ALL_OPEN()),
+          onMessage: (event) => dispatch(WS_ALL_MESSAGE(event)),
+        },
+      })
+    );
     return () => {
-      dispatch({ type: ORDER_ACTIONS_TYPE.WS_ALL_CLOSE });
+      dispatch(WS_ALL_CLOSE());
     };
   }, []);
 

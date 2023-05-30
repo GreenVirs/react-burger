@@ -3,24 +3,24 @@ import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burg
 import { Navigate, useLocation, useNavigate } from 'react-router';
 import AppMain from '../../components/layout/app-main/app-main';
 import { useForm } from '../../hooks/use-form';
-import AppCenterContainer from '../../components/layout/app-center-container/app-center-container';
 import AppForm from '../../components/layout/app-form/app-form';
 import AppFromDesc from '../../components/layout/app-form/app-from-desc';
 import AppFromLink from '../../components/layout/app-form/app-from-link';
-import { resetPassport } from '../../api/auth';
 import { routeLogin } from '../../components/app-router/app-router';
+import { RESET_PASSWORD } from '../../services/actions/user';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import AppCenterContainer from '../../components/layout/app-center-container/app-center-container';
 
 const ResetPasswordPage: FC = () => {
-  const [state, dispatch] = useForm({ password: '', token: '' });
+  const dispatch = useAppDispatch();
+  const [state, onChange] = useForm({ password: '', token: '' });
   const location = useLocation();
   const navigate = useNavigate();
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      resetPassport(state).then(({ success }) => {
-        if (success) {
-          navigate(routeLogin, { state: { ...location.state } });
-        }
+      dispatch(RESET_PASSWORD(state)).then(() => {
+        navigate(routeLogin, { state: { ...location.state } });
       });
     },
     [state, navigate, location]
@@ -40,13 +40,13 @@ const ResetPasswordPage: FC = () => {
                 <PasswordInput
                   placeholder="Введите новый пароль"
                   value={state.password}
-                  onChange={dispatch}
+                  onChange={onChange}
                   name="password"
                 />
                 <Input
                   placeholder="Введите код из письма"
                   value={state.token}
-                  onChange={dispatch}
+                  onChange={onChange}
                   name="token"
                 />
               </>

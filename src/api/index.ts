@@ -1,6 +1,7 @@
 import { checkConstructor } from '../utils/check-constructor';
 
 export const BASE_URL = 'https://norma.nomoreparties.space/api';
+export const BASE_SOCKET_URL = 'wss://norma.nomoreparties.space';
 const headers = new Headers({
   'Content-Type': 'application/json;charset=utf-8',
 });
@@ -91,7 +92,7 @@ export const fetchWithRefresh = async <T>(url: RequestInfo, options?: RequestIni
     if (refreshTokenRun) {
       await refreshTokenRun;
     }
-    const res = await fetchWithOptions(url, options);
+    const res = await fetchWithOptions(`${BASE_URL}/${url}`, options);
     return await checkResponse(res);
   } catch (err) {
     if (

@@ -1,4 +1,4 @@
-import { fetchWithRefresh, BASE_URL } from './index';
+import { fetchWithRefresh, BASE_SOCKET_URL } from './index';
 
 export type ApiReturned<T = object> = ({ success: true } & T) | { success: false };
 
@@ -7,7 +7,7 @@ export const find = <T>(
   args?: URLSearchParams | null,
   options?: RequestInit
 ): Promise<ApiReturned<{ data: T[] }>> => {
-  const url = `${BASE_URL}/${entrypoint}${args ? `?${new URLSearchParams(args).toString()}` : ''}`;
+  const url = `${entrypoint}${args ? `?${new URLSearchParams(args).toString()}` : ''}`;
   const opt = typeof options === 'undefined' ? { method: 'GET' } : { method: 'GET', ...options };
   return fetchWithRefresh<ApiReturned<{ data: T[] }>>(url, opt);
 };
@@ -17,7 +17,7 @@ export const findOne = <T>(
   args?: URLSearchParams | null,
   options?: RequestInit
 ): Promise<ApiReturned<T>> => {
-  const url = `${BASE_URL}/${entrypoint}${args ? `?${new URLSearchParams(args).toString()}` : ''}`;
+  const url = `${entrypoint}${args ? `?${new URLSearchParams(args).toString()}` : ''}`;
   const opt = typeof options === 'undefined' ? { method: 'GET' } : { method: 'GET', ...options };
   return fetchWithRefresh<ApiReturned<T>>(url, opt);
 };
@@ -32,7 +32,7 @@ export const create = <T>(
       ? { method: 'POST', body: JSON.stringify(data) }
       : { method: 'POST', ...options, body: JSON.stringify(data) };
 
-  return fetchWithRefresh<ApiReturned<T>>(`${BASE_URL}/${entrypoint}`, opt);
+  return fetchWithRefresh<ApiReturned<T>>(`${entrypoint}`, opt);
 };
 
 export const update = <T>(
@@ -45,7 +45,7 @@ export const update = <T>(
       ? { method: 'PUT', body: JSON.stringify(data) }
       : { method: 'PUT', ...options, body: JSON.stringify(data) };
 
-  return fetchWithRefresh<ApiReturned<T>>(`${BASE_URL}/${entrypoint}`, opt);
+  return fetchWithRefresh<ApiReturned<T>>(`${entrypoint}`, opt);
 };
 
 export const patch = <T>(
@@ -58,13 +58,13 @@ export const patch = <T>(
       ? { method: 'PATCH', body: JSON.stringify(data) }
       : { method: 'PATCH', ...options, body: JSON.stringify(data) };
 
-  return fetchWithRefresh<ApiReturned<T>>(`${BASE_URL}/${entrypoint}`, opt);
+  return fetchWithRefresh<ApiReturned<T>>(`${entrypoint}`, opt);
 };
 export const remove = <T>(entrypoint: string, options?: RequestInit): Promise<ApiReturned<T>> => {
   const opt =
     typeof options === 'undefined' ? { method: 'DELETE' } : { method: 'DELETE', ...options };
 
-  return fetchWithRefresh<ApiReturned<T>>(`${BASE_URL}/${entrypoint}`, opt);
+  return fetchWithRefresh<ApiReturned<T>>(`${entrypoint}`, opt);
 };
 
 export interface SocketOptions {
@@ -78,7 +78,7 @@ export const tunnel = (
   url: string | URL,
   { protocols, onMessage, onError, onClose, onOpen }: SocketOptions
 ) => {
-  const socket = new WebSocket(url, protocols);
+  const socket = new WebSocket(`${BASE_SOCKET_URL}/${url}`, protocols);
   socket.addEventListener('message', onMessage);
   onOpen && socket.addEventListener('open', onOpen);
   onError && socket.addEventListener('error', onError);

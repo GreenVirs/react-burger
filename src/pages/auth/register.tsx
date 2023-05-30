@@ -12,8 +12,7 @@ import AppCenterContainer from '../../components/layout/app-center-container/app
 import AppForm from '../../components/layout/app-form/app-form';
 import AppFromDesc from '../../components/layout/app-form/app-from-desc';
 import AppFromLink from '../../components/layout/app-form/app-from-link';
-import { register } from '../../api/auth';
-import { IS_USER_CHECKED, SET } from '../../services/reducers/user';
+import { REGISTER_USER } from '../../services/actions/user';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { routeHome, routeLogin } from '../../components/app-router/app-router';
 
@@ -25,9 +24,7 @@ const RegisterPage: FC = () => {
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      register(state).then((user) => {
-        dispatch(SET({ user }));
-        dispatch(IS_USER_CHECKED());
+      dispatch(REGISTER_USER(state)).then(() => {
         const { from } = location.state || { from: { pathname: routeHome } };
         navigate(from);
       });

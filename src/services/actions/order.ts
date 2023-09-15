@@ -27,3 +27,5 @@ export const GET_ORDER = createAsyncThunk<ApiReturned<{ orders: Order[] }>, stri
   ORDER_ACTIONS_TYPE.GET,
   getOrder
 );
+
+GET_ORDER.fulfilled;

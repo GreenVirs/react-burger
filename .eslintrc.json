@@ -15,6 +15,19 @@
         "prettier"
     ],
     "overrides": [
+        {
+            "files": [
+                "**/*.test.js",
+                "**/*.spec.js",
+                "**/*.spec.jsx",
+                "**/*.test.ts",
+                "**/*.spec.ts",
+                "**/*.spec.tsx"
+            ],
+            "env": {
+                "jest": true
+            }
+        }
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {

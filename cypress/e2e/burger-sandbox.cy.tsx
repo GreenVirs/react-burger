@@ -6,8 +6,8 @@ describe('<BurgerSandbox />', () => {
 
     cy.visit('http://localhost:3000', {
       onBeforeLoad(win: Cypress.AUTWindow) {
-        window.localStorage.setItem('accessToken', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NjhiMzFiOGE0YjYyMDAxYzgzYTY0MCIsImlhdCI6MTY5NDk2MDg0MSwiZXhwIjoxNjk0OTYyMDQxfQ.lOFFpXXlMvBqBcqWv_Y2C6I0L-giDdyC0S7ywZEqUhY');
-        window.localStorage.setItem('refreshToken', '83148aa43831a396e6db1159af81a642ad89d327792e1b3ef0990dbe70785ce912714ecf5911d657');
+        win.localStorage.setItem('accessToken', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NjhiMzFiOGE0YjYyMDAxYzgzYTY0MCIsImlhdCI6MTY5NDk2MDg0MSwiZXhwIjoxNjk0OTYyMDQxfQ.lOFFpXXlMvBqBcqWv_Y2C6I0L-giDdyC0S7ywZEqUhY');
+        win.localStorage.setItem('refreshToken', '83148aa43831a396e6db1159af81a642ad89d327792e1b3ef0990dbe70785ce912714ecf5911d657');
       }
     })
     cy.intercept('GET', 'https://norma.nomoreparties.space/api/ingredients', { fixture: 'ingredients.json' }).as('getIngredients');

@@ -21,7 +21,12 @@ const Modal: FC<Props> = (props) =>
           {typeof props.title !== 'undefined' && (
             <span className="text text_type_main-large">{props.title}</span>
           )}
-          <button type="button" className={modalStyle['modal__close-btn']} onClick={props.onClose}>
+          <button
+            type="button"
+            className={modalStyle['modal__close-btn']}
+            onClick={props.onClose}
+            data-cy-close-modal=""
+          >
             <CloseIcon type="primary" />
           </button>
         </header>

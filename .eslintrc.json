@@ -12,7 +12,8 @@
         "plugin:import/recommended",
         "airbnb",
         "plugin:react/jsx-runtime",
-        "prettier"
+        "prettier",
+        "plugin:cypress/recommended"
     ],
     "overrides": [
         {
@@ -38,6 +39,7 @@
     "plugins": [
         "react",
         "prettier",
+        "cypress",
         "@typescript-eslint"
     ],
     "rules": {

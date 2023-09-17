@@ -34,7 +34,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress:open": "npx cypress open",
-    "lint": "eslint src --fix"
+    "lint": "eslint src --fix",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
@@ -76,7 +76,7 @@
     "jest": "^27.5.1",
     "prettier": "2.8.4",
     "react-test-renderer": "^18.2.0",
-    "redux-mock-store": "^1.5.4"
-    "gh-pages": "^6.0.0",
+    "redux-mock-store": "^1.5.4",
+    "gh-pages": "^6.0.0"
   }
 }

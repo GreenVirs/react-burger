@@ -21,7 +21,7 @@ const NavigationLink: FC<Props> = ({ icon: Icon, children, large, ...linkProps }
   const setChildren = (isActive: boolean) => (
     <>
       {Icon && (
-        <span className="ml-2">
+        <span className={clsx('ml-2', linkStyles.link__icon)}>
           <Icon type={isActive ? 'primary' : 'secondary'} />
         </span>
       )}

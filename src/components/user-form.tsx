@@ -6,12 +6,12 @@ import {
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import AppForm from './layout/app-form/app-form';
-import { selectUser, SET } from '../services/reducers/user';
+import { selectUser } from '../services/reducers/user';
 import { useForm } from '../hooks/use-form';
 import { IUser } from '../models/user';
-import { updateUser } from '../api/auth';
 import { useRootSelector } from '../hooks/use-root-selector';
 import { useAppDispatch } from '../hooks/use-app-dispatch';
+import { UPDATE_USER } from '../services/actions/user';
 
 const UserForm: FC = () => {
   const { user, isLoading } = useRootSelector(selectUser);
@@ -46,12 +46,8 @@ const UserForm: FC = () => {
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const data = state.password ? state : { name: state.name, email: state.email };
-      updateUser(data).then(({ success }) => {
-        if (success) {
-          dispatch(SET({ user: { name: state.name, email: state.email } }));
-        } else {
-          patch({ ...(user as IUser), password: '' });
-        }
+      dispatch(UPDATE_USER(data)).catch(() => {
+        patch({ ...(user as IUser), password: '' });
       });
     },
     [state, dispatch, user, patch]

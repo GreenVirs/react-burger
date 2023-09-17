@@ -11,7 +11,7 @@ const PriceItem: FC<Props> = ({ large, price }) => {
   const priceClasses = useMemo(
     () =>
       clsx(
-        'mt-1 text',
+        'text',
         large ? 'text_type_digits-medium' : 'text_type_digits-default',
         ingredientsStyle.ingredient__price,
         { [ingredientsStyle['ingredients__price--large']]: large }

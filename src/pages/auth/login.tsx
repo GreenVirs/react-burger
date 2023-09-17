@@ -11,8 +11,7 @@ import AppCenterContainer from '../../components/layout/app-center-container/app
 import AppForm from '../../components/layout/app-form/app-form';
 import AppFromDesc from '../../components/layout/app-form/app-from-desc';
 import AppFromLink from '../../components/layout/app-form/app-from-link';
-import { login } from '../../api/auth';
-import { IS_USER_CHECKED, SET } from '../../services/reducers/user';
+import { LOGIN_USER } from '../../services/actions/user';
 import {
   routeForgotPassword,
   routeHome,
@@ -28,9 +27,7 @@ const LoginPage: FC = () => {
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      login(state).then((user) => {
-        dispatch(SET({ user }));
-        dispatch(IS_USER_CHECKED());
+      dispatch(LOGIN_USER(state)).then(() => {
         const { from } = location.state || { from: { pathname: routeHome } };
         navigate(from);
       });

@@ -7,20 +7,20 @@ import AppCenterContainer from '../../components/layout/app-center-container/app
 import AppForm from '../../components/layout/app-form/app-form';
 import AppFromDesc from '../../components/layout/app-form/app-from-desc';
 import AppFromLink from '../../components/layout/app-form/app-from-link';
-import { forgotPassport } from '../../api/auth';
 import { routeLogin, routeResetPassword } from '../../components/app-router/app-router';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { FORGOT_PASSWORD } from '../../services/actions/user';
 
 const ForgotPasswordPage: FC = () => {
+  const dispatch = useAppDispatch();
   const [state, onChange] = useForm({ email: '' });
   const location = useLocation();
   const navigate = useNavigate();
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      forgotPassport(state).then(({ success }) => {
-        if (success) {
-          navigate(routeResetPassword, { state: { ...location.state, resetPass: true } });
-        }
+      dispatch(FORGOT_PASSWORD(state)).then(() => {
+        navigate(routeResetPassword, { state: { ...location.state, resetPass: true } });
       });
     },
     [state, navigate, location]

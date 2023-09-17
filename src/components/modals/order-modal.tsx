@@ -2,7 +2,7 @@ import { FC, useCallback } from 'react';
 import Modal from '../modal/modal';
 import OrderDetails from '../burger-constructor/order-details/order-details';
 import { CLEAR_ITEMS } from '../../services/reducers/constructor';
-import { CLEAR as CLEAR_ORDER, selectOrder } from '../../services/reducers/order';
+import { CLEAR_ORDER, selectOrder } from '../../services/reducers/order';
 import { useRootSelector } from '../../hooks/use-root-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 

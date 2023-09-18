@@ -39,7 +39,11 @@ const BurgerIngredient: FC<Props> = ({ ingredient }) => {
   }, [ingredients, bun, ingredient]);
 
   return (
-    <li className={`pr-4 pl-4 pt-6 pb-10 ${ingredientsStyle.ingredient}`} ref={dragRef}>
+    <li
+      className={`pr-4 pl-4 pt-6 pb-10 ${ingredientsStyle.ingredient}`}
+      ref={dragRef}
+      data-cy-ingredient={ingredient._id}
+    >
       <span className="pl-4 pr-4">
         <img src={ingredient.image} alt={ingredient.name} />
       </span>

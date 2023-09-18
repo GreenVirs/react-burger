@@ -69,13 +69,14 @@ const BurgerConstructor: FC = () => {
   }, [dispatch, ingredients, bun]);
 
   return (
-    <div className={constructorClasses} ref={dropTargetRef}>
+    <div className={constructorClasses} ref={dropTargetRef} data-cy-constructor="">
       {bun && <ConstructorIngredient id={v4()} extraClass="mb-4" first ingredient={bun} />}
       <IngredientsList />
       {bun && <ConstructorIngredient id={v4()} extraClass="mt-4" last ingredient={bun} />}
       <div className={resultClasses}>
         <PriceItem large price={total} />
         <Button
+          data-cy-create-order=""
           disabled={bun === null || ingredients.length === 0}
           onClick={onCreateOrder}
           htmlType="button"

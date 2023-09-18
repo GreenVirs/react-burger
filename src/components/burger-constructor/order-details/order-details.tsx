@@ -33,7 +33,7 @@ const OrderDetails: FC = () => {
 
   return (
     order && (
-      <div className={burgerConstructorStyle['order-details']}>
+      <div className={burgerConstructorStyle['order-details']} data-cy-order-info>
         <div className={orderNumberClasses}>{order.order.number}</div>
         <div className={orderIdentifierClasses}>идентификатор заказа</div>
         <div className={burgerConstructorStyle['order-details__image']}>

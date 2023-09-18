@@ -21,7 +21,8 @@
     "jsx": "react-jsx",
     "types": [
       "@ya.praktikum/react-developer-burger-ui-components/dist",
-      "@types/uuid"
+      "@types/uuid",
+      "@types/jest"
     ]
   },
   "include": [

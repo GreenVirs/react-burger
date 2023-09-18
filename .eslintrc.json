@@ -12,9 +12,23 @@
         "plugin:import/recommended",
         "airbnb",
         "plugin:react/jsx-runtime",
-        "prettier"
+        "prettier",
+        "plugin:cypress/recommended"
     ],
     "overrides": [
+        {
+            "files": [
+                "**/*.test.js",
+                "**/*.spec.js",
+                "**/*.spec.jsx",
+                "**/*.test.ts",
+                "**/*.spec.ts",
+                "**/*.spec.tsx"
+            ],
+            "env": {
+                "jest": true
+            }
+        }
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -25,6 +39,7 @@
     "plugins": [
         "react",
         "prettier",
+        "cypress",
         "@typescript-eslint"
     ],
     "rules": {
